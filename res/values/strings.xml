@@ -1,0 +1,15 @@
+<resources>
+
+    <string name="app_name">RefiCalc Pro</string>
+	
+	<string-array name="cash_out">
+	    <item>Yes</item>
+	    <item>No</item>
+	</string-array>
+	
+	<string name="comparison_monthly_payment_format">You pay $%1$.2f %2$s per month.</string>
+	
+	<string name="comparison_duration_format">Your loan lasts %1$d year(s) and %2$d month(s) %3$s.</string>
+	
+	<string name="comparison_interest_format">You pay $%1$.2f %2$s interest.</string>
+</resources>
