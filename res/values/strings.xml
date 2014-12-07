@@ -7,6 +7,14 @@
 	    <item>No</item>
 	</string-array>
 	
+	<string name="tab_mortgage">Current Mortgage</string>
+	<string name="tab_refinance">Refinance</string>
+	<string name="tab_comparison">Comparison</string>
+	
+	<string name="duration_15_year">15 year</string>
+	<string name="duration_30_year">30 year</string>
+	<string name="duration_40_year">40 year</string>
+	
 	<string name="comparison_monthly_payment_format">You pay $%1$.2f %2$s per month.</string>
 	
 	<string name="comparison_duration_format">Your loan lasts %1$d year(s) and %2$d month(s) %3$s.</string>

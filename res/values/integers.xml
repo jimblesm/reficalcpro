@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="duration_15_years">15</integer>
+    <integer name="duration_30_years">30</integer>
+    <integer name="duration_40_years">40</integer>
+</resources>

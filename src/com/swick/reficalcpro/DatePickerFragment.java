@@ -30,7 +30,6 @@ public class DatePickerFragment extends DialogFragment implements OnDateSetListe
 		int dayOfMonth = 1;
 		
 		return new DatePickerDialog(getActivity(), this, year, monthOfYear, dayOfMonth);
-		
 	}
 
 	@Override
@@ -45,8 +44,7 @@ public class DatePickerFragment extends DialogFragment implements OnDateSetListe
 	
 	@Override
 	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		
+		super.onAttach(activity);	
 		this.listener = (MortgageDateChangeListener) activity;
 	}
 	
