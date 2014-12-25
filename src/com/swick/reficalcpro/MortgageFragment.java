@@ -2,6 +2,7 @@ package com.swick.reficalcpro;
 
 
 import static com.swick.reficalcpro.Utils.*;
+
 import java.math.RoundingMode;
 import java.text.DateFormatSymbols;
 
@@ -9,15 +10,18 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 
 public class MortgageFragment extends Fragment {
@@ -65,44 +69,49 @@ public class MortgageFragment extends Fragment {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
-					EditText tempEditView = (EditText) v;
-					Editable editable = ((EditText) v).getText();
-					if (editable != null && editable.length() > 0) {
-						mActivity.getMortgageState().setPrincipal(newBigDecimal(editable.toString()));
-					} else {
-						tempEditView.setText(mActivity.getMortgageState().getPrincipal().toPlainString());
-					}
-					mActivity.recalc();
-					updateSummary();
+					updateMortgageLoanAmount(v);
 				}
 				super.onFocusChange(v, hasFocus);
 			}
 		});
-
 		mortgageLoanAmountView.setText(mActivity.getMortgageState().getPrincipal()
 				.toString());
+		mortgageLoanAmountView.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if ((actionId == EditorInfo.IME_ACTION_DONE) || (actionId == EditorInfo.IME_ACTION_NEXT)) {
+					updateMortgageLoanAmount(v);
+				}
+
+				return false;
+			}
+		});
 
 		// Interest
 		final EditText mortgageInterestRateView = (EditText) rootView.findViewById(R.id.mortgage_interest_rate);
-		mortgageInterestRateView.setOnFocusChangeListener(new AbstractRecalcFocusChangeListener(mActivity) { 
+		mortgageInterestRateView.setOnFocusChangeListener(new AbstractRecalcFocusChangeListener(mActivity) {
+
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
-					EditText tempEditView = (EditText) v;
-					Editable editable = ((EditText) v).getText();
-					if (editable != null && editable.length() > 0) {
-						mActivity.getMortgageState().setInterestRate(newBigDecimal(editable.toString()));
-					} else {
-						tempEditView.setText(mActivity.getMortgageState().getInterestRate().toPlainString());
-					}
-					mActivity.recalc();
-					updateSummary();
+					updateMortgageInterest(v);
 				}
 				super.onFocusChange(v, hasFocus);
 			}
 		});
 		mortgageInterestRateView.setText(mActivity.getMortgageState().getInterestRate()
 				.toString());
+		mortgageInterestRateView.setOnEditorActionListener(new OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if ((actionId == EditorInfo.IME_ACTION_DONE) || (actionId == EditorInfo.IME_ACTION_NEXT)) {
+					updateMortgageInterest(v);
+				}
+
+				return false;
+			}
+		});
 
 		// Duration
 		final Spinner mortgageSpinner = (Spinner) rootView
@@ -160,6 +169,30 @@ public class MortgageFragment extends Fragment {
 		monthlyPaymentView.setText(mActivity.getMortgageState().getMonthlyPayment().setScale(2, RoundingMode.CEILING).toPlainString());
 		mortgagePayoffDateView.setText(monthName + " " + String.valueOf(Integer.valueOf(mActivity.getMortgageState().getYear()) + mActivity.getMortgageState().getDuration()));
 		totalInterestPaidView.setText("$" + mActivity.getMortgageState().getTotalInterest().setScale(2, RoundingMode.CEILING).toPlainString());
+	}
+	
+	private void updateMortgageLoanAmount(View v) {
+		EditText tempEditView = (EditText) v;
+		Editable editable = ((EditText) v).getText();
+		if (editable != null && editable.length() > 0) {
+			mActivity.getMortgageState().setPrincipal(newBigDecimal(editable.toString()));
+		} else {
+			tempEditView.setText(mActivity.getMortgageState().getPrincipal().toPlainString());
+		}
+		mActivity.recalc();
+		updateSummary();
+	}
+	
+	private void updateMortgageInterest(View v) {
+		EditText tempEditView = (EditText) v;
+		Editable editable = ((EditText) v).getText();
+		if (editable != null && editable.length() > 0) {
+			mActivity.getMortgageState().setInterestRate(newBigDecimal(editable.toString()));
+		} else {
+			tempEditView.setText(mActivity.getMortgageState().getInterestRate().toPlainString());
+		}
+		mActivity.recalc();
+		updateSummary();
 	}
 
 }

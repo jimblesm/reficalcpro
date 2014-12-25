@@ -9,15 +9,18 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 public class RefinanceFragment extends Fragment {
 
@@ -81,18 +84,22 @@ public class RefinanceFragment extends Fragment {
 					@Override
 					public void onFocusChange(View v, boolean hasFocus) {
 						if (!hasFocus) {
-							EditText tempEditView = (EditText) v;
-							Editable editable = ((EditText) v).getText();
-							if (editable != null && editable.length() > 0) {
-								mActivity.getRefinanceState().setInterestRate(newBigDecimal(editable.toString()));
-							} else {
-								tempEditView.setText(mActivity.getRefinanceState().getInterestRate().toPlainString());
-							}
+							updateRefinanceInterestRate(v);
 						}
 						super.onFocusChange(v, hasFocus);
 					}
 				});
 		refinanceInterestRateView.setText(mActivity.getRefinanceState().getInterestRate().toString());
+		refinanceInterestRateView.setOnEditorActionListener(new OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if ((actionId == EditorInfo.IME_ACTION_DONE) || (actionId == EditorInfo.IME_ACTION_NEXT)) {
+					updateRefinanceInterestRate(v);
+				}
+				return false;
+			}
+		});
 
 		// Duration
 		final Spinner refinanceSpinner = (Spinner) rootView
@@ -136,40 +143,79 @@ public class RefinanceFragment extends Fragment {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
-					EditText tempEditView = (EditText) v;
-					Editable editable = tempEditView.getText();
-					if (editable != null && editable.length() > 0) {
-						mActivity.getRefinanceState().setCost(newBigDecimal(editable.toString()));
-					} else {
-						tempEditView.setText(mActivity.getRefinanceState().getCost().toPlainString());
-					}
+					updateRefinanceCosts(v);
 				}
 				super.onFocusChange(v, hasFocus);
 			}
 		});
 		refinanceCosts.setText(mActivity.getRefinanceState().getCost().toString());
+		refinanceCosts.setOnEditorActionListener(new OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if ((actionId == EditorInfo.IME_ACTION_DONE) || (actionId == EditorInfo.IME_ACTION_NEXT)) {
+					updateRefinanceCosts(v);
+				}
+				return false;
+			}
+		});
 
 		// Cash Out Amount
 		final EditText refinanceCashout = (EditText) rootView
 				.findViewById(R.id.refinance_cash_out);
-		refinanceCashout.setOnFocusChangeListener(new AbstractRecalcFocusChangeListener(mActivity) { 
+		refinanceCashout.setOnFocusChangeListener(new AbstractRecalcFocusChangeListener(mActivity) {
+
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
-					EditText tempEditView = (EditText) v;
-					Editable editable = ((EditText) v).getText();
-					if (editable != null && editable.length() > 0) {
-						mActivity.getRefinanceState().setCashOut(newBigDecimal(editable.toString()));
-					} else {
-						tempEditView.setText(mActivity.getRefinanceState().getCashOut().toPlainString());
-					}
+					updateRefinanceCashout(v);
 				}
 				super.onFocusChange(v, hasFocus);
 			}
 		});
 		refinanceCashout.setText(mActivity.getRefinanceState().getCashOut().toString());
+		refinanceCashout.setOnEditorActionListener(new OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if ((actionId == EditorInfo.IME_ACTION_DONE) || (actionId == EditorInfo.IME_ACTION_NEXT)) {
+					updateRefinanceCashout(v);
+				}
+				return false;
+			}
+		});
 
 		return rootView;
+	}
+
+	private void updateRefinanceCashout(View v) {
+		EditText tempEditView = (EditText) v;
+		Editable editable = ((EditText) v).getText();
+		if (editable != null && editable.length() > 0) {
+			mActivity.getRefinanceState().setCashOut(newBigDecimal(editable.toString()));
+		} else {
+			tempEditView.setText(mActivity.getRefinanceState().getCashOut().toPlainString());
+		}
+	}
+
+	private void updateRefinanceCosts(View v) {
+		EditText tempEditView = (EditText) v;
+		Editable editable = tempEditView.getText();
+		if (editable != null && editable.length() > 0) {
+			mActivity.getRefinanceState().setCost(newBigDecimal(editable.toString()));
+		} else {
+			tempEditView.setText(mActivity.getRefinanceState().getCost().toPlainString());
+		}
+	}
+
+	private void updateRefinanceInterestRate(View v) {
+		EditText tempEditView = (EditText) v;
+		Editable editable = ((EditText) v).getText();
+		if (editable != null && editable.length() > 0) {
+			mActivity.getRefinanceState().setInterestRate(newBigDecimal(editable.toString()));
+		} else {
+			tempEditView.setText(mActivity.getRefinanceState().getInterestRate().toPlainString());
+		}
 	}
 
 }
