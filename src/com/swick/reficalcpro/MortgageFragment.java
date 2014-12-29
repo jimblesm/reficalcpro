@@ -1,7 +1,7 @@
 package com.swick.reficalcpro;
 
 
-import static com.swick.reficalcpro.Utils.*;
+import static com.swick.reficalcpro.Utils.newBigDecimal;
 
 import java.math.RoundingMode;
 import java.text.DateFormatSymbols;
