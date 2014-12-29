@@ -317,6 +317,7 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 		}
 
 		// Refinance
+		mRefinanceState.setPrincipal(balance);
 		calculateMortgage(mRefinanceState);
 	}
 
