@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,24 @@ public class ComparisonFragment extends Fragment {
 		super.onAttach(activity);
 		this.mActivity = (RefiCalcActivity) activity;
 	}
-	
+
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		Log.d("RefiCalcPro.ComparisonFragment", "onPause");
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		Log.d("RefiCalcPro.ComparisonFragment", "onResume");
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

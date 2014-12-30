@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="ga_sessionTimeout">300</integer>
+    
+    <!-- Verbose logging -->
+    <string name="ga_logLevel">verbose</string>
+
+    <!-- The screen names that will appear in reports -->
+    <screenName name="com.swick.reficalcpro.RefiCalcActivity">
+        RefiCalcPro
+    </screenName>
+</resources>

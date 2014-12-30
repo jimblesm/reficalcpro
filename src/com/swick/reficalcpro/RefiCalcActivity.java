@@ -22,6 +22,9 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.swick.reficalcpro.DatePickerFragment.MortgageDateChangeListener;
 
 public class RefiCalcActivity extends FragmentActivity implements MortgageDateChangeListener {
@@ -67,8 +70,19 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 	private final RefinanceState mRefinanceState;
 	private final ComparisonState mComparisonState;
 
+	/**
+	 * Metrics
+	 */
+	private final SparseArray<String> mMetricsTitles;
+
 	public RefiCalcActivity() {
 		tabTitles = new SparseArray<String>();
+		mMetricsTitles = new SparseArray<String>();
+
+		mMetricsTitles.put(0, "Mortgage");
+		mMetricsTitles.put(1, "Refinance");
+		mMetricsTitles.put(2, "Comparison");
+
 		mLoanDurations = new LinkedHashMap<String, Integer>();
 
 		mMortgageState = new MortgageState();
@@ -93,12 +107,17 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 		calculateComparison();
 	}
 
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		((RefiCalcApplication) getApplication()).getTracker();
+
 		tabTitles.put(0, getResources().getString(R.string.tab_mortgage));
 		tabTitles.put(1, getResources().getString(R.string.tab_refinance));
 		tabTitles.put(2, getResources().getString(R.string.tab_comparison));
+		
+		
 
 		mLoanDurations.put("15 years", getResources().getInteger(R.integer.duration_15_years));
 		mLoanDurations.put("30 years", getResources().getInteger(R.integer.duration_30_years));
@@ -121,6 +140,10 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 			@Override
 			public void onTabSelected(Tab tab, FragmentTransaction ft) {
 				mViewPager.setCurrentItem(tab.getPosition());
+				
+				Tracker tracker = ((RefiCalcApplication) getApplication()).getTracker();
+				tracker.setScreenName(mMetricsTitles.get(tab.getPosition()));
+				tracker.send(new HitBuilders.AppViewBuilder().build());
 			}
 
 			@Override
@@ -146,7 +169,7 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 
 		recalc();
 	}
-
+	
 	/**
 	 * Adapter for tabbed views.
 	 */
