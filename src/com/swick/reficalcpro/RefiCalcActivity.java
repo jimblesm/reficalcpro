@@ -12,6 +12,7 @@ import java.util.Map;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +21,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.swick.reficalcpro.DatePickerFragment.MortgageDateChangeListener;
@@ -66,6 +68,11 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 	private final MortgageState mMortgageState;
 	private final RefinanceState mRefinanceState;
 	private final ComparisonState mComparisonState;
+
+	/**
+	 * Current focus. Should be cleared between tab swipes.
+	 */
+	private View mCurrentFocusedView;
 
 	public RefiCalcActivity() {
 		tabTitles = new SparseArray<String>();
@@ -271,6 +278,24 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 	public ComparisonState getComparisonState() {
 		return mComparisonState;
 	}
+
+	public void setCurrentFocusedEditText(View v) {
+		if (v == null) {
+			return;
+		}
+
+		mCurrentFocusedView = v;
+	}
+
+	public boolean clearFocus(View v) {
+		boolean cleared = false;
+		if (v == mCurrentFocusedView) {
+			mCurrentFocusedView = null;
+			cleared = true;
+		}
+
+		return cleared;
+	}
 	
 	/**
 	 * Helper functions
@@ -331,6 +356,20 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 
 		int durationUntilRefinance = (mRefinanceState.getYear()- mMortgageState.getYear()) * 12 + (mRefinanceState.getMonth() - mMortgageState.getMonth());
 		mComparisonState.setComparisonDuration((mRefinanceState.getDuration() * 12 + durationUntilRefinance) - (mMortgageState.getDuration() * 12));
+	}
+
+
+	private void dismissKeyboard() {
+		if (mCurrentFocusedView == null) {
+			return;
+		}
+
+		mCurrentFocusedView.clearFocus();
+		InputMethodManager imm = (InputMethodManager)getSystemService(
+			      Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(mCurrentFocusedView.getWindowToken(), 0);
+
+		mCurrentFocusedView = null;
 	}
 
 }

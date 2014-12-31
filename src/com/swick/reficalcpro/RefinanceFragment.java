@@ -85,6 +85,9 @@ public class RefinanceFragment extends Fragment {
 					public void onFocusChange(View v, boolean hasFocus) {
 						if (!hasFocus) {
 							updateRefinanceInterestRate(v);
+							mActivity.clearFocus(v);
+						} else {
+							mActivity.setCurrentFocusedEditText(v);
 						}
 						super.onFocusChange(v, hasFocus);
 					}
@@ -144,6 +147,9 @@ public class RefinanceFragment extends Fragment {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
 					updateRefinanceCosts(v);
+					mActivity.clearFocus(v);
+				} else {
+					mActivity.setCurrentFocusedEditText(v);
 				}
 				super.onFocusChange(v, hasFocus);
 			}
@@ -169,6 +175,9 @@ public class RefinanceFragment extends Fragment {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
 					updateRefinanceCashout(v);
+					mActivity.clearFocus(v);
+				} else {
+					mActivity.setCurrentFocusedEditText(v);
 				}
 				super.onFocusChange(v, hasFocus);
 			}

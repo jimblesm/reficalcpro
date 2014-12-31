@@ -70,6 +70,9 @@ public class MortgageFragment extends Fragment {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
 					updateMortgageLoanAmount(v);
+					mActivity.clearFocus(v);
+				} else {
+					mActivity.setCurrentFocusedEditText(v);
 				}
 				super.onFocusChange(v, hasFocus);
 			}
@@ -81,6 +84,7 @@ public class MortgageFragment extends Fragment {
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if ((actionId == EditorInfo.IME_ACTION_DONE) || (actionId == EditorInfo.IME_ACTION_NEXT)) {
 					updateMortgageLoanAmount(v);
+					mActivity.clearFocus(v);
 				}
 
 				return false;
@@ -95,6 +99,9 @@ public class MortgageFragment extends Fragment {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (!hasFocus) {
 					updateMortgageInterest(v);
+					mActivity.clearFocus(v);
+				} else {
+					mActivity.setCurrentFocusedEditText(v);
 				}
 				super.onFocusChange(v, hasFocus);
 			}
