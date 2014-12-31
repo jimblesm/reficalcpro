@@ -7,13 +7,18 @@ import com.google.android.gms.analytics.Tracker;
 
 public class RefiCalcApplication extends Application {
 
-	private Tracker mTracker;
+	private Tracker mAppTracker;
+
+	@Override
+	public void onCreate() {
+		GoogleAnalytics.getInstance(this).enableAutoActivityReports(this);
+	}
 	
 	public synchronized Tracker getTracker() {
-		if (mTracker == null) {
-			mTracker = GoogleAnalytics.getInstance(this).newTracker(R.xml.google_analytics_config);
+		if (mAppTracker == null) {
+			mAppTracker = GoogleAnalytics.getInstance(this).newTracker(R.xml.ga_app_config);
 		}
-		
-		return mTracker;
+
+		return mAppTracker;
 	}
 }

@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,14 +46,22 @@ public class MortgageFragment extends Fragment {
 		mActivity.getmRefinanceFragment().updateState();
 		mActivity.recalc();
 		updateSummary();
+
+		Log.d("RefiCalcPro.MortgageFragment", "onPause");
 	}
-	
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.d("RefiCalcPro.MortgageFragment", "onResume");
+	}
+
 	private void updateSummary() {
 		TextView monthlyPaymentView = (TextView) mActivity.findViewById(R.id.mortgage_monthly_payment);
 		TextView mortgagePayoffDateView = (TextView) mActivity.findViewById(R.id.mortgage_payoff_date);
 		TextView totalInterestPaidView = (TextView) mActivity.findViewById(R.id.mortgage_total_interest_paid);
 		String monthName = new DateFormatSymbols().getMonths()[mActivity.getMortgageState().getMonth()];
-		
+
 		setSummaryView(monthName, monthlyPaymentView, mortgagePayoffDateView, totalInterestPaidView);
 	}
 
@@ -189,7 +198,7 @@ public class MortgageFragment extends Fragment {
 		mActivity.recalc();
 		updateSummary();
 	}
-	
+
 	private void updateMortgageInterest(View v) {
 		EditText tempEditView = (EditText) v;
 		Editable editable = ((EditText) v).getText();
@@ -201,5 +210,5 @@ public class MortgageFragment extends Fragment {
 		mActivity.recalc();
 		updateSummary();
 	}
-
+	
 }
