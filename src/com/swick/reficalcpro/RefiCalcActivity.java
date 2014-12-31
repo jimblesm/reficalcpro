@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.swick.reficalcpro.DatePickerFragment.MortgageDateChangeListener;
 
 public class RefiCalcActivity extends FragmentActivity implements MortgageDateChangeListener {
@@ -146,6 +148,8 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 			public void onTabSelected(Tab tab, FragmentTransaction ft) {
 				mViewPager.setCurrentItem(tab.getPosition());
 				
+				dismissKeyboard();
+
 				Tracker tracker = ((RefiCalcApplication) getApplication()).getTracker();
 				tracker.setScreenName(mMetricsTitles.get(tab.getPosition()));
 				tracker.send(new HitBuilders.AppViewBuilder().build());
