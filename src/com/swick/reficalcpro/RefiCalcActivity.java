@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.swick.reficalcpro.DatePickerFragment.MortgageDateChangeListener;
@@ -80,7 +81,6 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 	 * Current focus. Should be cleared between tab swipes.
 	 */
 	private View mCurrentFocusedView;
-
 
 	public RefiCalcActivity() {
 		tabTitles = new SparseArray<String>();
