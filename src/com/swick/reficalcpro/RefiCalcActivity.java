@@ -253,6 +253,10 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 	}
 
 	public RefinanceFragment getmRefinanceFragment() {
+		if (mRefinanceFragment == null) {
+			mRefiCalcPagerAdapter.getItem(1);	
+		}
+		
 		return mRefinanceFragment;
 	}
 
