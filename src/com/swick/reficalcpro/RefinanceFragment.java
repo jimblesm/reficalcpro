@@ -3,6 +3,7 @@ package com.swick.reficalcpro;
 
 import static com.swick.reficalcpro.Utils.newBigDecimal;
 
+import java.math.RoundingMode;
 import java.text.DateFormatSymbols;
 
 import android.app.Activity;
@@ -38,6 +39,7 @@ public class RefinanceFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 		updateState();
+		updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
 		mActivity.recalc();
 		Log.d("RefiCalcPro.MortgageFragment", "onPause");
 	}
@@ -77,6 +79,7 @@ public class RefinanceFragment extends Fragment {
 			refinanceCashout.setText(mActivity.getRefinanceState().getCashOut().toPlainString());
 		}
 
+		updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -132,6 +135,8 @@ public class RefinanceFragment extends Fragment {
 							View view, int position, long id) {
 						String loanDurations = ((TextView) view).getText().toString();
 						mActivity.getRefinanceState().setDuration(mActivity.getLoanDurations().get(loanDurations));
+						mActivity.recalc();
+						RefinanceFragment.this.updateSummary(view.getRootView());
 					}
 
 					@Override
@@ -202,7 +207,48 @@ public class RefinanceFragment extends Fragment {
 			}
 		});
 
+		updateSummary(rootView);
 		return rootView;
+	}
+
+	private void updateSummary(View rootView) {
+		MortgageState mortgageState = mActivity.getMortgageState();
+
+		// Original principal
+		TextView originalPrincipalView = (TextView) rootView.findViewById(R.id.mortgage_original_principal);
+		originalPrincipalView.setText("$" + mortgageState.getPrincipal().setScale(2, RoundingMode.CEILING).toPlainString());
+
+		// Original monthly payment
+		TextView originalMonthlyPayment = (TextView) rootView.findViewById(R.id.mortgage_original_monthly_payment);
+		originalMonthlyPayment.setText("$" + mortgageState.getMonthlyPayment().setScale(2, RoundingMode.CEILING).toPlainString());
+
+		// Original payoff date
+		String mortgageMonth = new DateFormatSymbols().getMonths()[mortgageState.getMonth()];
+		TextView originalPayoffDate = (TextView) rootView.findViewById(R.id.mortgage_original_payoff_date);
+		originalPayoffDate.setText(mortgageMonth + " " + (mortgageState.getYear().intValue() + mortgageState.getDuration().intValue()));
+
+		// Interest paid to date
+		TextView interestPaidToDate = (TextView) rootView.findViewById(R.id.mortgage_interest_paid_without_refinancing);
+		interestPaidToDate.setText("$" + mortgageState.getTotalInterest().setScale(2, RoundingMode.CEILING));
+
+		RefinanceState refinanceState = mActivity.getRefinanceState();
+
+		// New principal
+		TextView newPrincipal = (TextView) rootView.findViewById(R.id.refinance_new_principal);
+		newPrincipal.setText("$" + refinanceState.getPrincipal().setScale(2, RoundingMode.CEILING));
+
+		// New monthly payment
+		TextView newMonthlyPayment = (TextView) rootView.findViewById(R.id.refinance_new_monthly_payment);
+		newMonthlyPayment.setText("$" + refinanceState.getMonthlyPayment().setScale(2, RoundingMode.CEILING));
+
+		// New payoff date
+		String refinanceMonth = new DateFormatSymbols().getMonths()[refinanceState.getMonth()];
+		TextView newPayoffDate = (TextView) rootView.findViewById(R.id.refinance_new_payoff_date);
+		newPayoffDate.setText(refinanceMonth + " " + (refinanceState.getYear().intValue() + refinanceState.getDuration().intValue()));
+
+		// Total interest paid after refinance
+		TextView refinanceTotalInterestPaid = (TextView) rootView.findViewById(R.id.refinance_total_interest_paid);
+		refinanceTotalInterestPaid.setText("$" + refinanceState.getTotalInterest().setScale(2, RoundingMode.CEILING));
 	}
 
 	private void updateRefinanceCashout(View v) {
@@ -213,6 +259,9 @@ public class RefinanceFragment extends Fragment {
 		} else {
 			tempEditView.setText(mActivity.getRefinanceState().getCashOut().toPlainString());
 		}
+
+		mActivity.recalc();
+		updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
 	}
 
 	private void updateRefinanceCosts(View v) {
@@ -223,6 +272,9 @@ public class RefinanceFragment extends Fragment {
 		} else {
 			tempEditView.setText(mActivity.getRefinanceState().getCost().toPlainString());
 		}
+
+		mActivity.recalc();
+		updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
 	}
 
 	private void updateRefinanceInterestRate(View v) {
@@ -233,6 +285,9 @@ public class RefinanceFragment extends Fragment {
 		} else {
 			tempEditView.setText(mActivity.getRefinanceState().getInterestRate().toPlainString());
 		}
+
+		mActivity.recalc();
+		updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
 	}
 
 }

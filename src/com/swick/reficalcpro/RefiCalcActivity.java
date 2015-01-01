@@ -392,8 +392,9 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 		mCurrentFocusedView.clearFocus();
 		InputMethodManager imm = (InputMethodManager)getSystemService(
 			      Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(mCurrentFocusedView.getWindowToken(), 0);
-
+		if (imm != null) {
+			imm.hideSoftInputFromWindow(mCurrentFocusedView.getWindowToken(), 0);
+		}
 		mCurrentFocusedView = null;
 	}
 

@@ -6,7 +6,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="70" 
         android:orientation="vertical" >
 
 <!--         <TextView
@@ -82,23 +83,104 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="0dip"
+        android:layout_weight="30"
+        android:orientation="horizontal">
+        
+            <LinearLayout
+        		android:layout_width="0dip"
+        		android:layout_weight="50"
+        		android:layout_height="match_parent"
+        		android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/new_monthly_payment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:text="Original Principal" />
 
-        <TextView
-            android:id="@+id/new_payoff_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        		<TextView
+            		android:id="@+id/mortgage_original_principal"
+            		android:layout_width="match_parent"
+            		android:layout_height="30px" />
+        		
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:text="Original Monthly Payment" />
 
-        <TextView
-            android:id="@+id/total_interest_paid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        		<TextView
+            		android:id="@+id/mortgage_original_monthly_payment"
+            		android:layout_width="match_parent"
+            		android:layout_height="30px" />
+
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:text="Original Payoff Date" />
+
+        		<TextView
+            		android:id="@+id/mortgage_original_payoff_date"
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content" />
+
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:text="Interest paid before refi" />
+
+        		<TextView
+            		android:id="@+id/mortgage_interest_paid_without_refinancing"
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content" />
+    		</LinearLayout>
+    
+            
+        	<LinearLayout
+        		android:layout_width="0dip"
+        		android:layout_weight="50"
+        		android:layout_height="match_parent"
+        		android:orientation="vertical" >
+
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:text="New Principal" />
+        	
+        		<TextView
+            		android:id="@+id/refinance_new_principal"
+            		android:layout_width="match_parent"
+            		android:layout_height="30px" />
+        	    
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:text="New Monthly Payment" />
+        	
+        		<TextView
+            		android:id="@+id/refinance_new_monthly_payment"
+            		android:layout_width="match_parent"
+            		android:layout_height="30px" />
+
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:text="New Payoff Date" />
+        	
+				<TextView
+            		android:id="@+id/refinance_new_payoff_date"
+            		android:layout_width="match_parent"
+            		android:layout_height="30px" />
+
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:text="Total Interest Paid" />
+        				
+        		<TextView
+            		android:id="@+id/refinance_total_interest_paid"
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content" />
+    		</LinearLayout>
     </LinearLayout>
-
+    
 </LinearLayout>
