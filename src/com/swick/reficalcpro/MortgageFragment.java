@@ -63,6 +63,7 @@ public class MortgageFragment extends Fragment {
 		String monthName = new DateFormatSymbols().getMonths()[mActivity.getMortgageState().getMonth()];
 
 		setSummaryView(monthName, monthlyPaymentView, mortgagePayoffDateView, totalInterestPaidView);
+		mActivity.getmRefinanceFragment().updateState();
 	}
 
 	@Override

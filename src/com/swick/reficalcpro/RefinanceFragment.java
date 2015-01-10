@@ -136,7 +136,7 @@ public class RefinanceFragment extends Fragment {
 						String loanDurations = ((TextView) view).getText().toString();
 						mActivity.getRefinanceState().setDuration(mActivity.getLoanDurations().get(loanDurations));
 						mActivity.recalc();
-						RefinanceFragment.this.updateSummary(view.getRootView());
+						updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
 					}
 
 					@Override
@@ -260,6 +260,7 @@ public class RefinanceFragment extends Fragment {
 			tempEditView.setText(mActivity.getRefinanceState().getCashOut().toPlainString());
 		}
 
+		updateState();
 		mActivity.recalc();
 		updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
 	}
@@ -273,6 +274,7 @@ public class RefinanceFragment extends Fragment {
 			tempEditView.setText(mActivity.getRefinanceState().getCost().toPlainString());
 		}
 
+		updateState();
 		mActivity.recalc();
 		updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
 	}

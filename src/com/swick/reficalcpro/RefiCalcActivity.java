@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -393,7 +394,11 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 		InputMethodManager imm = (InputMethodManager)getSystemService(
 			      Context.INPUT_METHOD_SERVICE);
 		if (imm != null) {
-			imm.hideSoftInputFromWindow(mCurrentFocusedView.getWindowToken(), 0);
+			try {
+				imm.hideSoftInputFromWindow(mCurrentFocusedView.getWindowToken(), 0);
+			} catch (NullPointerException e) {
+				Log.w("RefiCalcPro.RefiCalcActivity", "Caught NPE, mCurrentFocusedView=" + mCurrentFocusedView + " imm=" + imm, e);
+			}
 		}
 		mCurrentFocusedView = null;
 	}
