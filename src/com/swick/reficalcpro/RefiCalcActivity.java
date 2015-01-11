@@ -5,9 +5,11 @@ import static com.swick.reficalcpro.Utils.newBigDecimal;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -33,13 +35,27 @@ import com.swick.reficalcpro.DatePickerFragment.MortgageDateChangeListener;
 public class RefiCalcActivity extends FragmentActivity implements MortgageDateChangeListener {
 
 	/**
-	 * Mortage/Refinance fields
+	 * Mortgage/Refinance fields
 	 */
 	public static final String CURRENT_MORTGAGE_MONTH = "CURRENT_MORTGAGE_MONTH";
 	public static final String CURRENT_MORTGAGE_YEAR = "CURRENT_MORTGAGE_YEAR";
 	public static final String REFINANCED_MORTGAGE_MONTH = "REFINANCED_MORTGAGE_MONTH";
 	public static final String REFINANCED_MORTGAGE_YEAR = "REFINANCED_MORTGAGE_YEAR";
+
+	/**
+	 * Constants for saving/restoring app state
+	 */
+	private static final String mortgagePrefix = "MORTGAGE-";
+	private static final String refinancePrefix = "REFI-";
 	
+	private static final String principleSuffix = "PRINCIPLE";
+	private static final String interestSuffix = "INTEREST";
+	private static final String yearSuffix = "YEAR";
+	private static final String monthSuffix = "MONTH";
+	private static final String durationSuffix = "DURATION";
+	private static final String costSuffix = "COST";
+	private static final String cashOutSuffix = "CASHOUT";
+
 	/**
 	 * Adapter
 	 */
@@ -58,7 +74,8 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 	/**
 	 * Durations
 	 */
-	private final Map<String, Integer> mLoanDurations;
+	private final Map<String, Integer> mLoanDurationLabels;
+	private final Map<Integer, Integer> mLoanDurationLabelIndexes;
 
 	/**
 	 * Fragments
@@ -91,46 +108,65 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 		mMetricsTitles.put(1, "Refinance");
 		mMetricsTitles.put(2, "Comparison");
 
-		mLoanDurations = new LinkedHashMap<String, Integer>();
+		mLoanDurationLabels = new LinkedHashMap<String, Integer>();
+		mLoanDurationLabelIndexes = new HashMap<Integer, Integer>();
 
 		mMortgageState = new MortgageState();
-		mMortgageState.setDuration(30);
-		mMortgageState.setInterestRate(newBigDecimal(5));
-		mMortgageState.setMonth(Calendar.JANUARY);
-		mMortgageState.setYear(2015);
-		mMortgageState.setPrincipal(newBigDecimal(200000));
-		
 		mRefinanceState = new RefinanceState();
-		mRefinanceState.setDuration(30);
-		mRefinanceState.setInterestRate(newBigDecimal(5));
-		mRefinanceState.setMonth(Calendar.FEBRUARY);
-		mRefinanceState.setYear(2015);
-		mRefinanceState.setCashOut(newBigDecimal(10000));
-		mRefinanceState.setCost(newBigDecimal(6000));
-		
 		mComparisonState = new ComparisonState();
-		
-		calculateMortgage();
-		calculateRefinance();
-		calculateComparison();
 	}
 
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		if (savedInstanceState == null) {
+			mMortgageState.setDuration(30);
+			mMortgageState.setInterestRate(newBigDecimal(5));
+			mMortgageState.setMonth(Calendar.JANUARY);
+			mMortgageState.setYear(2015);
+			mMortgageState.setPrincipal(newBigDecimal(200000));
+
+			mRefinanceState.setDuration(30);
+			mRefinanceState.setInterestRate(newBigDecimal(5));
+			mRefinanceState.setMonth(Calendar.FEBRUARY);
+			mRefinanceState.setYear(2015);
+			mRefinanceState.setCashOut(newBigDecimal(10000));
+			mRefinanceState.setCost(newBigDecimal(6000));
+		} else {
+			mMortgageState.setPrincipal(newBigDecimal(savedInstanceState.getString(mortgagePrefix + principleSuffix)));
+			mMortgageState.setInterestRate(newBigDecimal(savedInstanceState.getString(mortgagePrefix + interestSuffix)));
+			mMortgageState.setDuration(savedInstanceState.getInt(mortgagePrefix + durationSuffix));
+			mMortgageState.setMonth(savedInstanceState.getInt(mortgagePrefix + monthSuffix));
+			mMortgageState.setYear(savedInstanceState.getInt(mortgagePrefix + yearSuffix));
+
+			mRefinanceState.setPrincipal(newBigDecimal(savedInstanceState.getString(refinancePrefix + principleSuffix)));
+			mRefinanceState.setInterestRate(newBigDecimal(savedInstanceState.getString(refinancePrefix + interestSuffix)));
+			mRefinanceState.setDuration(savedInstanceState.getInt(refinancePrefix + durationSuffix));
+			mRefinanceState.setMonth(savedInstanceState.getInt(refinancePrefix + monthSuffix));
+			mRefinanceState.setYear(savedInstanceState.getInt(refinancePrefix + yearSuffix));
+			mRefinanceState.setCost(newBigDecimal(savedInstanceState.getString(refinancePrefix + costSuffix)));
+			mRefinanceState.setCashOut(newBigDecimal(savedInstanceState.getString(refinancePrefix + cashOutSuffix)));
+		}
+
+		calculateMortgage();
+		calculateRefinance();
+		calculateComparison();
+
 		((RefiCalcApplication) getApplication()).getTracker();
 
 		tabTitles.put(0, getResources().getString(R.string.tab_mortgage));
 		tabTitles.put(1, getResources().getString(R.string.tab_refinance));
 		tabTitles.put(2, getResources().getString(R.string.tab_comparison));
-		
-		
 
-		mLoanDurations.put("15 years", getResources().getInteger(R.integer.duration_15_years));
-		mLoanDurations.put("30 years", getResources().getInteger(R.integer.duration_30_years));
-		mLoanDurations.put("40 years", getResources().getInteger(R.integer.duration_40_years));
-
+		mLoanDurationLabels.put("15 years", getResources().getInteger(R.integer.duration_15_years));
+		mLoanDurationLabels.put("30 years", getResources().getInteger(R.integer.duration_30_years));
+		mLoanDurationLabels.put("40 years", getResources().getInteger(R.integer.duration_40_years));
+		
+		int durationLabelIndex = 0;
+		for (String label : mLoanDurationLabels.keySet()) {
+			mLoanDurationLabelIndexes.put(mLoanDurationLabels.get(label), durationLabelIndex++);
+		}
 		
 		setContentView(R.layout.refi_calc_layout);
 		
@@ -179,7 +215,24 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 
 		recalc();
 	}
-	
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putString(mortgagePrefix + principleSuffix, mMortgageState.getPrincipal().toPlainString());
+		outState.putString(mortgagePrefix + interestSuffix, mMortgageState.getInterestRate().toPlainString());
+		outState.putInt(mortgagePrefix + yearSuffix, mMortgageState.getYear());
+		outState.putInt(mortgagePrefix + monthSuffix, mMortgageState.getMonth());
+		outState.putInt(mortgagePrefix + durationSuffix, mMortgageState.getDuration());
+
+		outState.putString(refinancePrefix + principleSuffix, mRefinanceState.getPrincipal().toPlainString());
+		outState.putString(refinancePrefix + interestSuffix, mRefinanceState.getInterestRate().toPlainString());
+		outState.putInt(refinancePrefix + yearSuffix, mRefinanceState.getYear());
+		outState.putInt(refinancePrefix + monthSuffix, mRefinanceState.getMonth());
+		outState.putInt(refinancePrefix + durationSuffix, mRefinanceState.getDuration());
+		outState.putString(refinancePrefix + costSuffix, mRefinanceState.getCost().toPlainString());
+		outState.putString(refinancePrefix + cashOutSuffix, mRefinanceState.getCashOut().toPlainString());
+	}
+
 	/**
 	 * Adapter for tabbed views.
 	 */
@@ -281,11 +334,15 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 		}
 	}
 	
-	public Map<String, Integer> getLoanDurations() {
-		return mLoanDurations;
+	public Map<String, Integer> getLoanDurationLabels() {
+		return mLoanDurationLabels;
 	}
 
-	public RefinanceFragment getmRefinanceFragment() {
+	public Map<Integer, Integer> getLoanDurationLabelIndexes() {
+		return mLoanDurationLabelIndexes;
+	}
+
+	public RefinanceFragment getRefinanceFragment() {
 		if (mRefinanceFragment == null) {
 			mRefiCalcPagerAdapter.getItem(1);	
 		}

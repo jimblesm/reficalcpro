@@ -122,7 +122,7 @@ public class RefinanceFragment extends Fragment {
 		// spinner layout
 		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
 				mActivity, android.R.layout.simple_spinner_item,
-				mActivity.getLoanDurations().keySet().toArray(new String[0]));
+				mActivity.getLoanDurationLabels().keySet().toArray(new String[0]));
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
@@ -134,7 +134,7 @@ public class RefinanceFragment extends Fragment {
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
 						String loanDurations = ((TextView) view).getText().toString();
-						mActivity.getRefinanceState().setDuration(mActivity.getLoanDurations().get(loanDurations));
+						mActivity.getRefinanceState().setDuration(mActivity.getLoanDurationLabels().get(loanDurations));
 						mActivity.recalc();
 						updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
 					}
@@ -145,7 +145,7 @@ public class RefinanceFragment extends Fragment {
 					}
 				});
 
-		refinanceSpinner.setSelection(1);
+		refinanceSpinner.setSelection(mActivity.getLoanDurationLabelIndexes().get(mActivity.getRefinanceState().getDuration()));
 		// Start Date
 		final TextView startDateView = (TextView) rootView
 				.findViewById(R.id.refinance_start_date);

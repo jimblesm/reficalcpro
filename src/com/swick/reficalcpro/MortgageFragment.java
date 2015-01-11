@@ -43,7 +43,7 @@ public class MortgageFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-		mActivity.getmRefinanceFragment().updateState();
+		mActivity.getRefinanceFragment().updateState();
 		mActivity.recalc();
 		updateSummary();
 
@@ -63,7 +63,7 @@ public class MortgageFragment extends Fragment {
 		String monthName = new DateFormatSymbols().getMonths()[mActivity.getMortgageState().getMonth()];
 
 		setSummaryView(monthName, monthlyPaymentView, mortgagePayoffDateView, totalInterestPaidView);
-		mActivity.getmRefinanceFragment().updateState();
+		mActivity.getRefinanceFragment().updateState();
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class MortgageFragment extends Fragment {
 		// spinner layout
 		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
 				mActivity, android.R.layout.simple_spinner_item,
-				mActivity.getLoanDurations().keySet().toArray(new String[0]));
+				mActivity.getLoanDurationLabels().keySet().toArray(new String[0]));
 
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -151,7 +151,7 @@ public class MortgageFragment extends Fragment {
 							View view, int position, long id) {
 						String loanDurations = ((TextView) view).getText()
 								.toString();
-						mActivity.getMortgageState().setDuration(mActivity.getLoanDurations()
+						mActivity.getMortgageState().setDuration(mActivity.getLoanDurationLabels()
 								.get(loanDurations));
 						mActivity.recalc();
 						updateSummary();
@@ -163,7 +163,7 @@ public class MortgageFragment extends Fragment {
 					}
 				});
 
-		mortgageSpinner.setSelection(1);
+		mortgageSpinner.setSelection(mActivity.getLoanDurationLabelIndexes().get(mActivity.getMortgageState().getDuration()));
 		// Start Date
 		final TextView startDateView = (TextView) rootView
 				.findViewById(R.id.mortgage_start_date);
