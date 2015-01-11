@@ -179,6 +179,7 @@ public class MortgageFragment extends Fragment {
 
         mortgageSpinner.setSelection(mActivity.getLoanDurationLabelIndexes()
                 .get(mActivity.getMortgageState().getDuration()));
+
         // Start Date
         final TextView startDateView = (TextView) rootView
                 .findViewById(R.id.mortgage_start_date);
@@ -193,6 +194,76 @@ public class MortgageFragment extends Fragment {
                 .findViewById(R.id.mortgage_payoff_date);
         TextView totalInterestPaidView = (TextView) rootView
                 .findViewById(R.id.mortgage_total_interest_paid);
+
+        // Taxes
+        final EditText mortgageTaxesView = (EditText) rootView
+                .findViewById(R.id.mortgage_taxes);
+        mortgageTaxesView
+                .setOnFocusChangeListener(new AbstractRecalcFocusChangeListener(
+                        mActivity) {
+
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (!hasFocus) {
+                            updateMortgageTaxes(v);
+                            mActivity.clearFocus(v);
+                        } else {
+                            mActivity.setCurrentFocusedEditText(v);
+                        }
+                        super.onFocusChange(v, hasFocus);
+                    }
+                });
+        mortgageTaxesView.setText(mActivity.getMortgageState().getTaxes()
+                .toString());
+        mortgageTaxesView
+                .setOnEditorActionListener(new OnEditorActionListener() {
+
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId,
+                            KeyEvent event) {
+                        if ((actionId == EditorInfo.IME_ACTION_DONE)
+                                || (actionId == EditorInfo.IME_ACTION_NEXT)) {
+                            updateMortgageTaxes(v);
+                        }
+
+                        return false;
+                    }
+                });
+
+        // Insurance
+        final EditText mortgageInsuranceView = (EditText) rootView
+                .findViewById(R.id.mortgage_insurance);
+        mortgageInsuranceView
+                .setOnFocusChangeListener(new AbstractRecalcFocusChangeListener(
+                        mActivity) {
+
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (!hasFocus) {
+                            updateMortgageInsurance(v);
+                            mActivity.clearFocus(v);
+                        } else {
+                            mActivity.setCurrentFocusedEditText(v);
+                        }
+                        super.onFocusChange(v, hasFocus);
+                    }
+                });
+        mortgageInsuranceView.setText(mActivity.getMortgageState().getTaxes()
+                .toString());
+        mortgageInsuranceView
+                .setOnEditorActionListener(new OnEditorActionListener() {
+
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId,
+                            KeyEvent event) {
+                        if ((actionId == EditorInfo.IME_ACTION_DONE)
+                                || (actionId == EditorInfo.IME_ACTION_NEXT)) {
+                            updateMortgageInsurance(v);
+                        }
+
+                        return false;
+                    }
+                });
 
         setSummaryView(monthName, monthlyPaymentView, mortgagePayoffDateView,
                 totalInterestPaidView);
@@ -237,6 +308,34 @@ public class MortgageFragment extends Fragment {
                     newBigDecimal(editable.toString()));
         } else {
             tempEditView.setText(mActivity.getMortgageState().getInterestRate()
+                    .toPlainString());
+        }
+        mActivity.recalc();
+        updateSummary();
+    }
+
+    private void updateMortgageTaxes(View v) {
+        EditText tempEditView = (EditText) v;
+        Editable editable = ((EditText) v).getText();
+        if (editable != null && editable.length() > 0) {
+            mActivity.getMortgageState().setTaxes(
+                    newBigDecimal(editable.toString()));
+        } else {
+            tempEditView.setText(mActivity.getMortgageState().getTaxes()
+                    .toPlainString());
+        }
+        mActivity.recalc();
+        updateSummary();
+    }
+
+    private void updateMortgageInsurance(View v) {
+        EditText tempEditView = (EditText) v;
+        Editable editable = ((EditText) v).getText();
+        if (editable != null && editable.length() > 0) {
+            mActivity.getMortgageState().setInsurance(
+                    newBigDecimal(editable.toString()));
+        } else {
+            tempEditView.setText(mActivity.getMortgageState().getInsurance()
                     .toPlainString());
         }
         mActivity.recalc();

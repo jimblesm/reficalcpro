@@ -52,6 +52,8 @@ public class RefiCalcActivity extends FragmentActivity implements
     private static final String yearSuffix = "YEAR";
     private static final String monthSuffix = "MONTH";
     private static final String durationSuffix = "DURATION";
+    private static final String taxesSuffix = "TAXES";
+    private static final String insuranceSuffix = "INSURANCE";
     private static final String costSuffix = "COST";
     private static final String cashOutSuffix = "CASHOUT";
 
@@ -125,6 +127,8 @@ public class RefiCalcActivity extends FragmentActivity implements
             mMortgageState.setMonth(Calendar.JANUARY);
             mMortgageState.setYear(2015);
             mMortgageState.setPrincipal(newBigDecimal(200000));
+            mMortgageState.setTaxes(BigDecimal.ZERO);
+            mMortgageState.setInsurance(BigDecimal.ZERO);
 
             mRefinanceState.setDuration(30);
             mRefinanceState.setInterestRate(newBigDecimal(5));
@@ -143,6 +147,10 @@ public class RefiCalcActivity extends FragmentActivity implements
                     + monthSuffix));
             mMortgageState.setYear(savedInstanceState.getInt(mortgagePrefix
                     + yearSuffix));
+            mMortgageState.setTaxes(newBigDecimal(savedInstanceState
+                    .getString(mortgagePrefix + taxesSuffix)));
+            mMortgageState.setInsurance(newBigDecimal(savedInstanceState
+                    .getString(mortgagePrefix + insuranceSuffix)));
 
             mRefinanceState.setPrincipal(newBigDecimal(savedInstanceState
                     .getString(refinancePrefix + principleSuffix)));
@@ -244,6 +252,10 @@ public class RefiCalcActivity extends FragmentActivity implements
         outState.putInt(mortgagePrefix + monthSuffix, mMortgageState.getMonth());
         outState.putInt(mortgagePrefix + durationSuffix,
                 mMortgageState.getDuration());
+        outState.putString(mortgagePrefix + taxesSuffix, mMortgageState
+                .getTaxes().toPlainString());
+        outState.putString(mortgagePrefix + insuranceSuffix, mMortgageState
+                .getInsurance().toPlainString());
 
         outState.putString(refinancePrefix + principleSuffix, mRefinanceState
                 .getPrincipal().toPlainString());
@@ -443,7 +455,11 @@ public class RefiCalcActivity extends FragmentActivity implements
         // divisor
         BigDecimal divisor = monthlyInterestPlusOnePow.subtract(BigDecimal.ONE);
 
-        state.setMonthlyPayment(divide(dividend, divisor));
+        // monthly taxes
+        BigDecimal monthlyTaxes = state.getTaxes().divide(newBigDecimal(12));
+
+        state.setMonthlyPayment(divide(dividend, divisor).add(monthlyTaxes)
+                .add(state.getInsurance()));
 
         state.setTotalInterest(state
                 .getMonthlyPayment()
@@ -477,6 +493,8 @@ public class RefiCalcActivity extends FragmentActivity implements
         // Refinance
         mRefinanceState.setPrincipal(balance.add(mRefinanceState.getCost())
                 .add(mRefinanceState.getCashOut()));
+        mRefinanceState.setTaxes(mMortgageState.getTaxes());
+        mRefinanceState.setInsurance(mMortgageState.getInsurance());
         calculateMortgage(mRefinanceState);
     }
 

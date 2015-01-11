@@ -8,6 +8,8 @@ public class MortgageState {
     private Integer mMortgageYear;
     private Integer mMortgageMonth;
     private Integer mMortgageDuration;
+    private BigDecimal mMortgageTaxes;
+    private BigDecimal mMortgageInsurance;
     private BigDecimal mMortgageMonthlyPayment;
     private BigDecimal mMortgageTotalInterest;
 
@@ -57,6 +59,22 @@ public class MortgageState {
 
     public void setDuration(Integer mortgageDuration) {
         this.mMortgageDuration = mortgageDuration;
+    }
+
+    public BigDecimal getTaxes() {
+        return mMortgageTaxes;
+    }
+
+    public void setTaxes(BigDecimal mMortgageTaxes) {
+        this.mMortgageTaxes = mMortgageTaxes;
+    }
+
+    public BigDecimal getInsurance() {
+        return mMortgageInsurance;
+    }
+
+    public void setInsurance(BigDecimal mMortgageInsurance) {
+        this.mMortgageInsurance = mMortgageInsurance;
     }
 
     public BigDecimal getMonthlyPayment() {
