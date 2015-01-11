@@ -372,7 +372,7 @@ public class RefiCalcActivity extends FragmentActivity implements MortgageDateCh
 		}
 
 		// Refinance
-		mRefinanceState.setPrincipal(balance);
+		mRefinanceState.setPrincipal(balance.add(mRefinanceState.getCost()).add(mRefinanceState.getCashOut()));
 		calculateMortgage(mRefinanceState);
 	}
 
