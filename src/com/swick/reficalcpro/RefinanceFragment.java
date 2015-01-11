@@ -1,6 +1,5 @@
 package com.swick.reficalcpro;
 
-
 import static com.swick.reficalcpro.Utils.newBigDecimal;
 
 import java.math.RoundingMode;
@@ -26,270 +25,341 @@ import android.widget.TextView.OnEditorActionListener;
 
 public class RefinanceFragment extends Fragment {
 
-	private RefiCalcActivity mActivity;
-	private View rootView;
+    private RefiCalcActivity mActivity;
+    private View rootView;
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		this.mActivity = (RefiCalcActivity) activity;
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-		updateState();
-		updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
-		mActivity.recalc();
-		Log.d("RefiCalcPro.MortgageFragment", "onPause");
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-		Log.d("RefiCalcPro.RefinanceFragment", "onResume");
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.mActivity = (RefiCalcActivity) activity;
+    }
 
-	void updateState() {
-		final EditText refinanceInterestRateView = (EditText) rootView
-				.findViewById(R.id.refinance_interest_rate);
+    @Override
+    public void onPause() {
+        super.onPause();
+        updateState();
+        updateSummary(mActivity.getWindow().getDecorView()
+                .findViewById(android.R.id.content));
+        mActivity.recalc();
+        Log.d("RefiCalcPro.MortgageFragment", "onPause");
+    }
 
-		Editable editable = refinanceInterestRateView.getText();
-		if (editable != null && editable.length() > 0) {
-			mActivity.getRefinanceState().setInterestRate(newBigDecimal(editable.toString()));
-		} else {
-			refinanceInterestRateView.setText(mActivity.getRefinanceState().getInterestRate().toPlainString());
-		}
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("RefiCalcPro.RefinanceFragment", "onResume");
+    }
 
-		final EditText refinanceCosts = (EditText) rootView
-				.findViewById(R.id.refinance_costs);
-		editable = refinanceCosts.getText();
-		if (editable != null && editable.length() > 0) {
-			mActivity.getRefinanceState().setCost(newBigDecimal(editable.toString()));
-		} else {
-			refinanceCosts.setText(mActivity.getRefinanceState().getCost().toPlainString());
-		}
-		
-		final EditText refinanceCashout = (EditText) rootView
-				.findViewById(R.id.refinance_cash_out);
-		editable = refinanceCashout.getText();
-		if (editable != null && editable.length() > 0) {
-			mActivity.getRefinanceState().setCashOut(newBigDecimal(editable.toString()));
-		} else {
-			refinanceCashout.setText(mActivity.getRefinanceState().getCashOut().toPlainString());
-		}
+    void updateState() {
+        final EditText refinanceInterestRateView = (EditText) rootView
+                .findViewById(R.id.refinance_interest_rate);
 
-		updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
-	}
+        Editable editable = refinanceInterestRateView.getText();
+        if (editable != null && editable.length() > 0) {
+            mActivity.getRefinanceState().setInterestRate(
+                    newBigDecimal(editable.toString()));
+        } else {
+            refinanceInterestRateView.setText(mActivity.getRefinanceState()
+                    .getInterestRate().toPlainString());
+        }
 
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.refinance_layout,
-				container, false);
-		this.rootView = rootView;
+        final EditText refinanceCosts = (EditText) rootView
+                .findViewById(R.id.refinance_costs);
+        editable = refinanceCosts.getText();
+        if (editable != null && editable.length() > 0) {
+            mActivity.getRefinanceState().setCost(
+                    newBigDecimal(editable.toString()));
+        } else {
+            refinanceCosts.setText(mActivity.getRefinanceState().getCost()
+                    .toPlainString());
+        }
 
-		// Interest
-		final EditText refinanceInterestRateView = (EditText) rootView
-				.findViewById(R.id.refinance_interest_rate);
-		refinanceInterestRateView.setOnFocusChangeListener(new AbstractRecalcFocusChangeListener(mActivity) { 
-					@Override
-					public void onFocusChange(View v, boolean hasFocus) {
-						if (!hasFocus) {
-							updateRefinanceInterestRate(v);
-							mActivity.clearFocus(v);
-						} else {
-							mActivity.setCurrentFocusedEditText(v);
-						}
-						super.onFocusChange(v, hasFocus);
-					}
-				});
-		refinanceInterestRateView.setText(mActivity.getRefinanceState().getInterestRate().toString());
-		refinanceInterestRateView.setOnEditorActionListener(new OnEditorActionListener() {
+        final EditText refinanceCashout = (EditText) rootView
+                .findViewById(R.id.refinance_cash_out);
+        editable = refinanceCashout.getText();
+        if (editable != null && editable.length() > 0) {
+            mActivity.getRefinanceState().setCashOut(
+                    newBigDecimal(editable.toString()));
+        } else {
+            refinanceCashout.setText(mActivity.getRefinanceState().getCashOut()
+                    .toPlainString());
+        }
 
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if ((actionId == EditorInfo.IME_ACTION_DONE) || (actionId == EditorInfo.IME_ACTION_NEXT)) {
-					updateRefinanceInterestRate(v);
-				}
-				return false;
-			}
-		});
+        updateSummary(mActivity.getWindow().getDecorView()
+                .findViewById(android.R.id.content));
+    }
 
-		// Duration
-		final Spinner refinanceSpinner = (Spinner) rootView
-				.findViewById(R.id.refinance_duration);
-		// Create an ArrayAdapter using the string array and a default
-		// spinner layout
-		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
-				mActivity, android.R.layout.simple_spinner_item,
-				mActivity.getLoanDurationLabels().keySet().toArray(new String[0]));
-		// Specify the layout to use when the list of choices appears
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// Apply the adapter to the spinner
-		refinanceSpinner.setAdapter(adapter);
-		refinanceSpinner
-				.setOnItemSelectedListener(new OnItemSelectedListener() {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.refinance_layout, container,
+                false);
+        this.rootView = rootView;
 
-					@Override
-					public void onItemSelected(AdapterView<?> parent,
-							View view, int position, long id) {
-						String loanDurations = ((TextView) view).getText().toString();
-						mActivity.getRefinanceState().setDuration(mActivity.getLoanDurationLabels().get(loanDurations));
-						mActivity.recalc();
-						updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
-					}
+        // Interest
+        final EditText refinanceInterestRateView = (EditText) rootView
+                .findViewById(R.id.refinance_interest_rate);
+        refinanceInterestRateView
+                .setOnFocusChangeListener(new AbstractRecalcFocusChangeListener(
+                        mActivity) {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (!hasFocus) {
+                            updateRefinanceInterestRate(v);
+                            mActivity.clearFocus(v);
+                        } else {
+                            mActivity.setCurrentFocusedEditText(v);
+                        }
+                        super.onFocusChange(v, hasFocus);
+                    }
+                });
+        refinanceInterestRateView.setText(mActivity.getRefinanceState()
+                .getInterestRate().toString());
+        refinanceInterestRateView
+                .setOnEditorActionListener(new OnEditorActionListener() {
 
-					@Override
-					public void onNothingSelected(AdapterView<?> arg0) {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId,
+                            KeyEvent event) {
+                        if ((actionId == EditorInfo.IME_ACTION_DONE)
+                                || (actionId == EditorInfo.IME_ACTION_NEXT)) {
+                            updateRefinanceInterestRate(v);
+                        }
+                        return false;
+                    }
+                });
 
-					}
-				});
+        // Duration
+        final Spinner refinanceSpinner = (Spinner) rootView
+                .findViewById(R.id.refinance_duration);
+        // Create an ArrayAdapter using the string array and a default
+        // spinner layout
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
+                mActivity, android.R.layout.simple_spinner_item, mActivity
+                        .getLoanDurationLabels().keySet()
+                        .toArray(new String[0]));
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        refinanceSpinner.setAdapter(adapter);
+        refinanceSpinner
+                .setOnItemSelectedListener(new OnItemSelectedListener() {
 
-		refinanceSpinner.setSelection(mActivity.getLoanDurationLabelIndexes().get(mActivity.getRefinanceState().getDuration()));
-		// Start Date
-		final TextView startDateView = (TextView) rootView
-				.findViewById(R.id.refinance_start_date);
-		String monthName = new DateFormatSymbols().getMonths()[mActivity.getRefinanceState().getMonth()];
-		startDateView.setText(monthName + " " + mActivity.getRefinanceState().getYear());
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent,
+                            View view, int position, long id) {
+                        String loanDurations = ((TextView) view).getText()
+                                .toString();
+                        mActivity.getRefinanceState().setDuration(
+                                mActivity.getLoanDurationLabels().get(
+                                        loanDurations));
+                        mActivity.recalc();
+                        updateSummary(mActivity.getWindow().getDecorView()
+                                .findViewById(android.R.id.content));
+                    }
 
-		// Costs
-		final EditText refinanceCosts = (EditText) rootView
-				.findViewById(R.id.refinance_costs);
-		refinanceCosts.setOnFocusChangeListener(new AbstractRecalcFocusChangeListener(mActivity) { 
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (!hasFocus) {
-					updateRefinanceCosts(v);
-					mActivity.clearFocus(v);
-				} else {
-					mActivity.setCurrentFocusedEditText(v);
-				}
-				super.onFocusChange(v, hasFocus);
-			}
-		});
-		refinanceCosts.setText(mActivity.getRefinanceState().getCost().toString());
-		refinanceCosts.setOnEditorActionListener(new OnEditorActionListener() {
-			
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if ((actionId == EditorInfo.IME_ACTION_DONE) || (actionId == EditorInfo.IME_ACTION_NEXT)) {
-					updateRefinanceCosts(v);
-				}
-				return false;
-			}
-		});
+                    @Override
+                    public void onNothingSelected(AdapterView<?> arg0) {
 
-		// Cash Out Amount
-		final EditText refinanceCashout = (EditText) rootView
-				.findViewById(R.id.refinance_cash_out);
-		refinanceCashout.setOnFocusChangeListener(new AbstractRecalcFocusChangeListener(mActivity) {
+                    }
+                });
 
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (!hasFocus) {
-					updateRefinanceCashout(v);
-					mActivity.clearFocus(v);
-				} else {
-					mActivity.setCurrentFocusedEditText(v);
-				}
-				super.onFocusChange(v, hasFocus);
-			}
-		});
-		refinanceCashout.setText(mActivity.getRefinanceState().getCashOut().toString());
-		refinanceCashout.setOnEditorActionListener(new OnEditorActionListener() {
+        refinanceSpinner.setSelection(mActivity.getLoanDurationLabelIndexes()
+                .get(mActivity.getRefinanceState().getDuration()));
+        // Start Date
+        final TextView startDateView = (TextView) rootView
+                .findViewById(R.id.refinance_start_date);
+        String monthName = new DateFormatSymbols().getMonths()[mActivity
+                .getRefinanceState().getMonth()];
+        startDateView.setText(monthName + " "
+                + mActivity.getRefinanceState().getYear());
 
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if ((actionId == EditorInfo.IME_ACTION_DONE) || (actionId == EditorInfo.IME_ACTION_NEXT)) {
-					updateRefinanceCashout(v);
-				}
-				return false;
-			}
-		});
+        // Costs
+        final EditText refinanceCosts = (EditText) rootView
+                .findViewById(R.id.refinance_costs);
+        refinanceCosts
+                .setOnFocusChangeListener(new AbstractRecalcFocusChangeListener(
+                        mActivity) {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (!hasFocus) {
+                            updateRefinanceCosts(v);
+                            mActivity.clearFocus(v);
+                        } else {
+                            mActivity.setCurrentFocusedEditText(v);
+                        }
+                        super.onFocusChange(v, hasFocus);
+                    }
+                });
+        refinanceCosts.setText(mActivity.getRefinanceState().getCost()
+                .toString());
+        refinanceCosts.setOnEditorActionListener(new OnEditorActionListener() {
 
-		updateSummary(rootView);
-		return rootView;
-	}
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                    KeyEvent event) {
+                if ((actionId == EditorInfo.IME_ACTION_DONE)
+                        || (actionId == EditorInfo.IME_ACTION_NEXT)) {
+                    updateRefinanceCosts(v);
+                }
+                return false;
+            }
+        });
 
-	private void updateSummary(View rootView) {
-		MortgageState mortgageState = mActivity.getMortgageState();
+        // Cash Out Amount
+        final EditText refinanceCashout = (EditText) rootView
+                .findViewById(R.id.refinance_cash_out);
+        refinanceCashout
+                .setOnFocusChangeListener(new AbstractRecalcFocusChangeListener(
+                        mActivity) {
 
-		// Original principal
-		TextView originalPrincipalView = (TextView) rootView.findViewById(R.id.mortgage_original_principal);
-		originalPrincipalView.setText("$" + mortgageState.getPrincipal().setScale(2, RoundingMode.CEILING).toPlainString());
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (!hasFocus) {
+                            updateRefinanceCashout(v);
+                            mActivity.clearFocus(v);
+                        } else {
+                            mActivity.setCurrentFocusedEditText(v);
+                        }
+                        super.onFocusChange(v, hasFocus);
+                    }
+                });
+        refinanceCashout.setText(mActivity.getRefinanceState().getCashOut()
+                .toString());
+        refinanceCashout
+                .setOnEditorActionListener(new OnEditorActionListener() {
 
-		// Original monthly payment
-		TextView originalMonthlyPayment = (TextView) rootView.findViewById(R.id.mortgage_original_monthly_payment);
-		originalMonthlyPayment.setText("$" + mortgageState.getMonthlyPayment().setScale(2, RoundingMode.CEILING).toPlainString());
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId,
+                            KeyEvent event) {
+                        if ((actionId == EditorInfo.IME_ACTION_DONE)
+                                || (actionId == EditorInfo.IME_ACTION_NEXT)) {
+                            updateRefinanceCashout(v);
+                        }
+                        return false;
+                    }
+                });
 
-		// Original payoff date
-		String mortgageMonth = new DateFormatSymbols().getMonths()[mortgageState.getMonth()];
-		TextView originalPayoffDate = (TextView) rootView.findViewById(R.id.mortgage_original_payoff_date);
-		originalPayoffDate.setText(mortgageMonth + " " + (mortgageState.getYear().intValue() + mortgageState.getDuration().intValue()));
+        updateSummary(rootView);
+        return rootView;
+    }
 
-		// Interest paid to date
-		TextView interestPaidToDate = (TextView) rootView.findViewById(R.id.mortgage_interest_paid_without_refinancing);
-		interestPaidToDate.setText("$" + mortgageState.getTotalInterest().setScale(2, RoundingMode.CEILING));
+    private void updateSummary(View rootView) {
+        MortgageState mortgageState = mActivity.getMortgageState();
 
-		RefinanceState refinanceState = mActivity.getRefinanceState();
+        // Original principal
+        TextView originalPrincipalView = (TextView) rootView
+                .findViewById(R.id.mortgage_original_principal);
+        originalPrincipalView.setText("$"
+                + mortgageState.getPrincipal()
+                        .setScale(2, RoundingMode.CEILING).toPlainString());
 
-		// New principal
-		TextView newPrincipal = (TextView) rootView.findViewById(R.id.refinance_new_principal);
-		newPrincipal.setText("$" + refinanceState.getPrincipal().setScale(2, RoundingMode.CEILING));
+        // Original monthly payment
+        TextView originalMonthlyPayment = (TextView) rootView
+                .findViewById(R.id.mortgage_original_monthly_payment);
+        originalMonthlyPayment.setText("$"
+                + mortgageState.getMonthlyPayment()
+                        .setScale(2, RoundingMode.CEILING).toPlainString());
 
-		// New monthly payment
-		TextView newMonthlyPayment = (TextView) rootView.findViewById(R.id.refinance_new_monthly_payment);
-		newMonthlyPayment.setText("$" + refinanceState.getMonthlyPayment().setScale(2, RoundingMode.CEILING));
+        // Original payoff date
+        String mortgageMonth = new DateFormatSymbols().getMonths()[mortgageState
+                .getMonth()];
+        TextView originalPayoffDate = (TextView) rootView
+                .findViewById(R.id.mortgage_original_payoff_date);
+        originalPayoffDate.setText(mortgageMonth
+                + " "
+                + (mortgageState.getYear().intValue() + mortgageState
+                        .getDuration().intValue()));
 
-		// New payoff date
-		String refinanceMonth = new DateFormatSymbols().getMonths()[refinanceState.getMonth()];
-		TextView newPayoffDate = (TextView) rootView.findViewById(R.id.refinance_new_payoff_date);
-		newPayoffDate.setText(refinanceMonth + " " + (refinanceState.getYear().intValue() + refinanceState.getDuration().intValue()));
+        // Interest paid to date
+        TextView interestPaidToDate = (TextView) rootView
+                .findViewById(R.id.mortgage_interest_paid_without_refinancing);
+        interestPaidToDate.setText("$"
+                + mortgageState.getTotalInterest().setScale(2,
+                        RoundingMode.CEILING));
 
-		// Total interest paid after refinance
-		TextView refinanceTotalInterestPaid = (TextView) rootView.findViewById(R.id.refinance_total_interest_paid);
-		refinanceTotalInterestPaid.setText("$" + refinanceState.getTotalInterest().setScale(2, RoundingMode.CEILING));
-	}
+        RefinanceState refinanceState = mActivity.getRefinanceState();
 
-	private void updateRefinanceCashout(View v) {
-		EditText tempEditView = (EditText) v;
-		Editable editable = ((EditText) v).getText();
-		if (editable != null && editable.length() > 0) {
-			mActivity.getRefinanceState().setCashOut(newBigDecimal(editable.toString()));
-		} else {
-			tempEditView.setText(mActivity.getRefinanceState().getCashOut().toPlainString());
-		}
+        // New principal
+        TextView newPrincipal = (TextView) rootView
+                .findViewById(R.id.refinance_new_principal);
+        newPrincipal.setText("$"
+                + refinanceState.getPrincipal().setScale(2,
+                        RoundingMode.CEILING));
 
-		updateState();
-		mActivity.recalc();
-		updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
-	}
+        // New monthly payment
+        TextView newMonthlyPayment = (TextView) rootView
+                .findViewById(R.id.refinance_new_monthly_payment);
+        newMonthlyPayment.setText("$"
+                + refinanceState.getMonthlyPayment().setScale(2,
+                        RoundingMode.CEILING));
 
-	private void updateRefinanceCosts(View v) {
-		EditText tempEditView = (EditText) v;
-		Editable editable = tempEditView.getText();
-		if (editable != null && editable.length() > 0) {
-			mActivity.getRefinanceState().setCost(newBigDecimal(editable.toString()));
-		} else {
-			tempEditView.setText(mActivity.getRefinanceState().getCost().toPlainString());
-		}
+        // New payoff date
+        String refinanceMonth = new DateFormatSymbols().getMonths()[refinanceState
+                .getMonth()];
+        TextView newPayoffDate = (TextView) rootView
+                .findViewById(R.id.refinance_new_payoff_date);
+        newPayoffDate.setText(refinanceMonth
+                + " "
+                + (refinanceState.getYear().intValue() + refinanceState
+                        .getDuration().intValue()));
 
-		updateState();
-		mActivity.recalc();
-		updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
-	}
+        // Total interest paid after refinance
+        TextView refinanceTotalInterestPaid = (TextView) rootView
+                .findViewById(R.id.refinance_total_interest_paid);
+        refinanceTotalInterestPaid.setText("$"
+                + refinanceState.getTotalInterest().setScale(2,
+                        RoundingMode.CEILING));
+    }
 
-	private void updateRefinanceInterestRate(View v) {
-		EditText tempEditView = (EditText) v;
-		Editable editable = ((EditText) v).getText();
-		if (editable != null && editable.length() > 0) {
-			mActivity.getRefinanceState().setInterestRate(newBigDecimal(editable.toString()));
-		} else {
-			tempEditView.setText(mActivity.getRefinanceState().getInterestRate().toPlainString());
-		}
+    private void updateRefinanceCashout(View v) {
+        EditText tempEditView = (EditText) v;
+        Editable editable = ((EditText) v).getText();
+        if (editable != null && editable.length() > 0) {
+            mActivity.getRefinanceState().setCashOut(
+                    newBigDecimal(editable.toString()));
+        } else {
+            tempEditView.setText(mActivity.getRefinanceState().getCashOut()
+                    .toPlainString());
+        }
 
-		mActivity.recalc();
-		updateSummary(mActivity.getWindow().getDecorView().findViewById(android.R.id.content));
-	}
+        updateState();
+        mActivity.recalc();
+        updateSummary(mActivity.getWindow().getDecorView()
+                .findViewById(android.R.id.content));
+    }
+
+    private void updateRefinanceCosts(View v) {
+        EditText tempEditView = (EditText) v;
+        Editable editable = tempEditView.getText();
+        if (editable != null && editable.length() > 0) {
+            mActivity.getRefinanceState().setCost(
+                    newBigDecimal(editable.toString()));
+        } else {
+            tempEditView.setText(mActivity.getRefinanceState().getCost()
+                    .toPlainString());
+        }
+
+        updateState();
+        mActivity.recalc();
+        updateSummary(mActivity.getWindow().getDecorView()
+                .findViewById(android.R.id.content));
+    }
+
+    private void updateRefinanceInterestRate(View v) {
+        EditText tempEditView = (EditText) v;
+        Editable editable = ((EditText) v).getText();
+        if (editable != null && editable.length() > 0) {
+            mActivity.getRefinanceState().setInterestRate(
+                    newBigDecimal(editable.toString()));
+        } else {
+            tempEditView.setText(mActivity.getRefinanceState()
+                    .getInterestRate().toPlainString());
+        }
+
+        mActivity.recalc();
+        updateSummary(mActivity.getWindow().getDecorView()
+                .findViewById(android.R.id.content));
+    }
 
 }
