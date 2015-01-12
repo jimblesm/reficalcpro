@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -15,6 +15,23 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="RCPLabelDefault">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="RCPEditableDefault">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="RCPUneditableDefault">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#669900</item>
+        <item name="android:paddingLeft">40dp</item>
     </style>
 
 </resources>
