@@ -456,7 +456,7 @@ public class RefiCalcActivity extends FragmentActivity implements
         BigDecimal divisor = monthlyInterestPlusOnePow.subtract(BigDecimal.ONE);
 
         // monthly taxes
-        BigDecimal monthlyTaxes = state.getTaxes().divide(newBigDecimal(12));
+        BigDecimal monthlyTaxes = divide(state.getTaxes(), newBigDecimal(12));
 
         state.setMonthlyPayment(divide(dividend, divisor).add(monthlyTaxes)
                 .add(state.getInsurance()));
