@@ -28,6 +28,8 @@
                 style="@style/RCPEditableDefault"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:inputType="numberDecimal" />
 
             <TextView
@@ -46,6 +48,8 @@
                 android:paddingBottom="20px"
                 android:paddingLeft="20px"
                 android:paddingTop="20px"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:text="January 2014" />
 
             <TextView
@@ -58,7 +62,9 @@
                 android:id="@+id/refinance_duration"
                 style="@style/RCPEditableDefault"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
 
             <TextView
                 style="@style/RCPLabelDefault"
@@ -71,7 +77,9 @@
                 style="@style/RCPEditableDefault"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
 
             <TextView
                 style="@style/RCPLabelDefault"
@@ -84,7 +92,9 @@
                 style="@style/RCPEditableDefault"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
         </LinearLayout>
 
     </ScrollView>

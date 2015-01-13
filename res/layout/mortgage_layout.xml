@@ -28,7 +28,7 @@
                 android:inputType="numberDecimal"
                 android:id="@+id/mortgage_loan_amount"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginRight="20dp"
                 style="@style/RCPEditableDefault" />
 
             <TextView
