@@ -273,9 +273,9 @@ public class MortgageFragment extends Fragment {
 
     private void setSummaryView(String monthName, TextView monthlyPaymentView,
             TextView mortgagePayoffDateView, TextView totalInterestPaidView) {
-        monthlyPaymentView.setText(mActivity.getMortgageState()
-                .getMonthlyPayment().setScale(2, RoundingMode.CEILING)
-                .toPlainString());
+        monthlyPaymentView.setText("$"
+                + mActivity.getMortgageState().getMonthlyPayment()
+                        .setScale(2, RoundingMode.CEILING).toPlainString());
         mortgagePayoffDateView.setText(monthName
                 + " "
                 + String.valueOf(Integer.valueOf(mActivity.getMortgageState()

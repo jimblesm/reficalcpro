@@ -7,7 +7,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="70" >
+        android:layout_weight="65"
+        android:requiresFadingEdge="vertical"
+        android:paddingBottom="5dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,7 +28,7 @@
                 android:inputType="numberDecimal"
                 android:id="@+id/mortgage_loan_amount"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="40dp"
                 style="@style/RCPEditableDefault" />
 
             <TextView
@@ -113,15 +115,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="30"
-        android:orientation="vertical"
-        android:background="@drawable/summary_border" >
+        android:layout_weight="35"
+        android:orientation="vertical" >
 
-        <TextView
+		<TextView
+		    style="@style/RCPHeaderDefault"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:text="Mortgage Summary" />
+
+		<TextView
+            style="@style/RCPLabelDefault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Monthly Payment"
-            style="@style/RCPLabelDefault" />
+            android:text="Monthly Payment" />
 
         <TextView
             android:id="@+id/mortgage_monthly_payment"

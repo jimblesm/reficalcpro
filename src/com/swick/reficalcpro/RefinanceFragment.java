@@ -287,12 +287,30 @@ public class RefinanceFragment extends Fragment {
                 + refinanceState.getPrincipal().setScale(2,
                         RoundingMode.CEILING));
 
+        if (mortgageState.getPrincipal().compareTo(
+                refinanceState.getPrincipal()) >= 0) {
+            newPrincipal.setTextColor(getResources().getColor(
+                    R.color.positive_green));
+        } else {
+            newPrincipal.setTextColor(getResources().getColor(
+                    R.color.negative_red));
+        }
+
         // New monthly payment
         TextView newMonthlyPayment = (TextView) rootView
                 .findViewById(R.id.refinance_new_monthly_payment);
         newMonthlyPayment.setText("$"
                 + refinanceState.getMonthlyPayment().setScale(2,
                         RoundingMode.CEILING));
+
+        if (mortgageState.getMonthlyPayment().compareTo(
+                refinanceState.getMonthlyPayment()) >= 0) {
+            newMonthlyPayment.setTextColor(getResources().getColor(
+                    R.color.positive_green));
+        } else {
+            newMonthlyPayment.setTextColor(getResources().getColor(
+                    R.color.negative_red));
+        }
 
         // New payoff date
         String refinanceMonth = new DateFormatSymbols().getMonths()[refinanceState
@@ -310,6 +328,15 @@ public class RefinanceFragment extends Fragment {
         refinanceTotalInterestPaid.setText("$"
                 + refinanceState.getTotalInterest().setScale(2,
                         RoundingMode.CEILING));
+
+        if (mortgageState.getTotalInterest().compareTo(
+                refinanceState.getTotalInterest()) >= 0) {
+            refinanceTotalInterestPaid.setTextColor(getResources().getColor(
+                    R.color.positive_green));
+        } else {
+            refinanceTotalInterestPaid.setTextColor(getResources().getColor(
+                    R.color.negative_red));
+        }
     }
 
     private void updateRefinanceCashout(View v) {
