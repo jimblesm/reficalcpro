@@ -14,7 +14,9 @@ import android.widget.TextView;
 public class ComparisonFragment extends Fragment {
     private RefiCalcActivity mActivity;
     private TextView comparisonMonthlyPayment;
+    private TextView comparisonMonthlyPaymentLessMore;
     private TextView comparisonDuration;
+    private TextView comparisonShorterLonger;
     private TextView comparisonInterest;
 
     @Override
@@ -52,9 +54,14 @@ public class ComparisonFragment extends Fragment {
         comparisonMonthlyPayment = (TextView) rootView
                 .findViewById(R.id.comparison_monthly_payment);
 
+        comparisonMonthlyPaymentLessMore = (TextView) rootView
+                .findViewById(R.id.comparison_monthly_payment_less_more);
+
         // Duration
         comparisonDuration = (TextView) rootView
                 .findViewById(R.id.comparison_duration);
+        comparisonShorterLonger = (TextView) rootView
+                .findViewById(R.id.comparison_longer_shorter);
 
         // Interest
         comparisonInterest = (TextView) rootView
@@ -67,41 +74,59 @@ public class ComparisonFragment extends Fragment {
     void setComps() {
         String monthlyPaymentText = mActivity.getResources().getString(
                 R.string.comparison_monthly_payment_format);
+        String monthlyPaymentLessMoreText = mActivity.getResources().getString(
+                R.string.comparison_monthly_payment_less_more);
         if (mActivity.getComparisonState().getComparisonMonthlyPayment()
-                .compareTo(BigDecimal.ZERO) < 0) {
+                .compareTo(BigDecimal.ZERO) <= 0) {
             float monthlyPayment = mActivity.getComparisonState()
                     .getComparisonMonthlyPayment().abs().floatValue();
             monthlyPaymentText = String.format(monthlyPaymentText,
-                    monthlyPayment, "less");
+                    monthlyPayment);
+            comparisonMonthlyPayment.setTextColor(getResources().getColor(
+                    R.color.positive_green));
+            monthlyPaymentLessMoreText = String.format(
+                    monthlyPaymentLessMoreText, "less");
         } else if (mActivity.getComparisonState().getComparisonMonthlyPayment()
                 .compareTo(BigDecimal.ZERO) > 0) {
             float monthlyPayment = mActivity.getComparisonState()
                     .getComparisonMonthlyPayment().floatValue();
             monthlyPaymentText = String.format(monthlyPaymentText,
-                    monthlyPayment, "more");
-        } else {
-            monthlyPaymentText = "Your monthly payment is the same";
+                    monthlyPayment);
+            comparisonMonthlyPayment.setTextColor(getResources().getColor(
+                    R.color.negative_red));
+            monthlyPaymentLessMoreText = String.format(
+                    monthlyPaymentLessMoreText, "more");
         }
         comparisonMonthlyPayment.setText(monthlyPaymentText);
+        comparisonMonthlyPaymentLessMore.setText(monthlyPaymentLessMoreText);
 
         String comparisonDurationText = mActivity.getResources().getString(
                 R.string.comparison_duration_format);
+        String comparisonShorterLongerText = mActivity.getResources()
+                .getString(R.string.comparison_shorter_longer_format);
         if (mActivity.getComparisonState().getComparisonDuration() < 0) {
             int duration = Math.abs(mActivity.getComparisonState()
                     .getComparisonDuration());
             int years = duration / 12;
             int months = duration % 12;
             comparisonDurationText = String.format(comparisonDurationText,
-                    years, months, "shorter");
-        } else if (mActivity.getComparisonState().getComparisonDuration() > 0) {
+                    years, months);
+            comparisonDuration.setTextColor(getResources().getColor(
+                    R.color.positive_green));
+            comparisonShorterLongerText = String.format(
+                    comparisonShorterLongerText, "shorter");
+        } else if (mActivity.getComparisonState().getComparisonDuration() >= 0) {
             int years = mActivity.getComparisonState().getComparisonDuration() / 12;
             int months = mActivity.getComparisonState().getComparisonDuration() % 12;
             comparisonDurationText = String.format(comparisonDurationText,
-                    years, months, "longer");
-        } else {
-            comparisonDurationText = "Your total duration is the same";
+                    years, months);
+            comparisonDuration.setTextColor(getResources().getColor(
+                    R.color.negative_red));
+            comparisonShorterLongerText = String.format(
+                    comparisonShorterLongerText, "longer");
         }
         comparisonDuration.setText(comparisonDurationText);
+        comparisonShorterLonger.setText(comparisonShorterLongerText);
 
         String comparisonInterestText = mActivity.getResources().getString(
                 R.string.comparison_interest_format);
@@ -111,12 +136,16 @@ public class ComparisonFragment extends Fragment {
                     .getComparisonInterestPaid().abs().floatValue();
             comparisonInterestText = String.format(comparisonInterestText,
                     interestPaid, "less");
+            comparisonInterest.setTextColor(getResources().getColor(
+                    R.color.positive_green));
         } else if (mActivity.getComparisonState().getComparisonInterestPaid()
                 .compareTo(BigDecimal.ZERO) > 0) {
             float interestPaid = mActivity.getComparisonState()
                     .getComparisonInterestPaid().floatValue();
             comparisonInterestText = String.format(comparisonInterestText,
                     interestPaid, "more");
+            comparisonInterest.setTextColor(getResources().getColor(
+                    R.color.negative_red));
         } else {
             comparisonInterestText = "You pay the same amount in interest";
         }

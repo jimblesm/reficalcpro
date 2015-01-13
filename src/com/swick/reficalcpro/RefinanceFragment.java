@@ -321,6 +321,17 @@ public class RefinanceFragment extends Fragment {
                 + " "
                 + (refinanceState.getYear().intValue() + refinanceState
                         .getDuration().intValue()));
+        if (((mortgageState.getYear() + mortgageState.getDuration()) == (refinanceState
+                .getYear() + refinanceState.getDuration()) && mortgageState
+                .getMonth() >= refinanceState.getMonth())
+                || ((mortgageState.getYear() + mortgageState.getDuration()) > (refinanceState
+                        .getYear() + refinanceState.getDuration()))) {
+            newPayoffDate.setTextColor(getResources().getColor(
+                    R.color.positive_green));
+        } else {
+            newPayoffDate.setTextColor(getResources().getColor(
+                    R.color.negative_red));
+        }
 
         // Total interest paid after refinance
         TextView refinanceTotalInterestPaid = (TextView) rootView

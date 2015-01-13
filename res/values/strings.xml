@@ -15,9 +15,11 @@
 	<string name="duration_30_year">30 year</string>
 	<string name="duration_40_year">40 year</string>
 	
-	<string name="comparison_monthly_payment_format">You pay $%1$.2f %2$s per month.</string>
+	<string name="comparison_monthly_payment_format">$%1$.2f</string>
+	<string name="comparison_monthly_payment_less_more">%1$s per month.</string>
 	
-	<string name="comparison_duration_format">Your loan lasts %1$d year(s) and %2$d month(s) %3$s.</string>
+	<string name="comparison_duration_format">%1$d year(s) and %2$d month(s) </string>
+	<string name="comparison_shorter_longer_format">%1$s.</string>
 	
-	<string name="comparison_interest_format">You pay $%1$.2f %2$s interest.</string>
+	<string name="comparison_interest_format">$%1$.2f %2$s</string>
 </resources>
