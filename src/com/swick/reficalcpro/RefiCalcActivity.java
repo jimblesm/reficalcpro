@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.swick.reficalcpro.DatePickerFragment.MortgageDateChangeListener;
+import com.swick.reficalcpro.beta.R;
 
 public class RefiCalcActivity extends FragmentActivity implements
         MortgageDateChangeListener {

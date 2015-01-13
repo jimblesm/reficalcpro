@@ -23,6 +23,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.swick.reficalcpro.beta.R;
+
 public class MortgageFragment extends Fragment {
 
     private RefiCalcActivity mActivity;
