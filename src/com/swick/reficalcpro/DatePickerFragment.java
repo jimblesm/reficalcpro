@@ -30,10 +30,20 @@ public class DatePickerFragment extends DialogFragment implements
                     .getInt(RefiCalcActivity.CURRENT_MORTGAGE_MONTH);
         }
 
+        long earliestMillis = bundle.getLong(
+                RefiCalcActivity.REFINANCED_EARLIEST_DATE, 0L);
+        long latestMillis = bundle.getLong(
+                RefiCalcActivity.REFINANCED_LATEST_LATEST_DATE, Long.MAX_VALUE);
+
         int dayOfMonth = 1;
 
-        return new DatePickerDialog(getActivity(), this, year, monthOfYear,
-                dayOfMonth);
+        DatePickerDialog dialog = new DatePickerDialog(getActivity(), this,
+                year, monthOfYear, dayOfMonth);
+        DatePicker picker = dialog.getDatePicker();
+        picker.setMinDate(earliestMillis);
+        picker.setMaxDate(latestMillis);
+
+        return dialog;
     }
 
     @Override

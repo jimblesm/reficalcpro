@@ -1,5 +1,6 @@
 package com.swick.reficalcpro;
 
+import static com.swick.reficalcpro.Utils.getNextMonth;
 import static com.swick.reficalcpro.Utils.newBigDecimal;
 
 import java.math.RoundingMode;
@@ -54,7 +55,7 @@ public class MortgageFragment extends Fragment {
         Log.d("RefiCalcPro.MortgageFragment", "onResume");
     }
 
-    private void updateSummary() {
+    public void updateSummary() {
         TextView monthlyPaymentView = (TextView) mActivity
                 .findViewById(R.id.mortgage_monthly_payment);
         TextView mortgagePayoffDateView = (TextView) mActivity
@@ -66,6 +67,32 @@ public class MortgageFragment extends Fragment {
 
         setSummaryView(monthName, monthlyPaymentView, mortgagePayoffDateView,
                 totalInterestPaidView);
+
+        MortgageState mortgageState = mActivity.getMortgageState();
+        RefinanceState refinanceState = mActivity.getRefinanceState();
+
+        if (((mortgageState.getYear() + mortgageState.getDuration()) < refinanceState
+                .getYear().intValue())
+                || ((mortgageState.getYear().intValue() == refinanceState
+                        .getYear().intValue()) && (mortgageState.getMonth()
+                        .intValue() >= refinanceState.getMonth().intValue()))
+                || ((mortgageState.getYear() + mortgageState.getDuration() == refinanceState
+                        .getYear().intValue()) && (mortgageState.getMonth()
+                        .intValue() <= refinanceState.getMonth().intValue()))
+                || ((mortgageState.getYear().intValue() > refinanceState
+                        .getYear().intValue()))) {
+
+            refinanceState.setYear(mortgageState.getYear());
+            int mortgageMonth = mortgageState.getMonth();
+            int nextMonth = getNextMonth(mortgageState);
+
+            if (mortgageMonth != nextMonth && nextMonth == 0) {
+                refinanceState.setYear(mortgageState.getYear() + 1);
+            }
+
+            refinanceState.setMonth(nextMonth);
+        }
+
         mActivity.getRefinanceFragment().updateState();
     }
 

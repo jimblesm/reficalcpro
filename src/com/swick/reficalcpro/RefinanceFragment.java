@@ -50,7 +50,7 @@ public class RefinanceFragment extends Fragment {
         Log.d("RefiCalcPro.RefinanceFragment", "onResume");
     }
 
-    void updateState() {
+    public void updateState() {
         final EditText refinanceInterestRateView = (EditText) rootView
                 .findViewById(R.id.refinance_interest_rate);
 
@@ -84,6 +84,8 @@ public class RefinanceFragment extends Fragment {
             refinanceCashout.setText(mActivity.getRefinanceState().getCashOut()
                     .toPlainString());
         }
+
+        refreshStartDate(rootView);
 
         updateSummary(mActivity.getWindow().getDecorView()
                 .findViewById(android.R.id.content));
@@ -167,12 +169,7 @@ public class RefinanceFragment extends Fragment {
         refinanceSpinner.setSelection(mActivity.getLoanDurationLabelIndexes()
                 .get(mActivity.getRefinanceState().getDuration()));
         // Start Date
-        final TextView startDateView = (TextView) rootView
-                .findViewById(R.id.refinance_start_date);
-        String monthName = new DateFormatSymbols().getMonths()[mActivity
-                .getRefinanceState().getMonth()];
-        startDateView.setText(monthName + " "
-                + mActivity.getRefinanceState().getYear());
+        refreshStartDate(rootView);
 
         // Costs
         final EditText refinanceCosts = (EditText) rootView
@@ -242,6 +239,15 @@ public class RefinanceFragment extends Fragment {
 
         updateSummary(rootView);
         return rootView;
+    }
+
+    private void refreshStartDate(View rootView) {
+        final TextView startDateView = (TextView) rootView
+                .findViewById(R.id.refinance_start_date);
+        String monthName = new DateFormatSymbols().getMonths()[mActivity
+                .getRefinanceState().getMonth()];
+        startDateView.setText(monthName + " "
+                + mActivity.getRefinanceState().getYear());
     }
 
     private void updateSummary(View rootView) {

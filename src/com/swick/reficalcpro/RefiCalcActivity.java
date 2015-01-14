@@ -1,6 +1,8 @@
 package com.swick.reficalcpro;
 
 import static com.swick.reficalcpro.Utils.divide;
+import static com.swick.reficalcpro.Utils.getNextMonth;
+import static com.swick.reficalcpro.Utils.getPreviousMonth;
 import static com.swick.reficalcpro.Utils.newBigDecimal;
 
 import java.math.BigDecimal;
@@ -40,6 +42,8 @@ public class RefiCalcActivity extends FragmentActivity implements
     public static final String CURRENT_MORTGAGE_YEAR = "CURRENT_MORTGAGE_YEAR";
     public static final String REFINANCED_MORTGAGE_MONTH = "REFINANCED_MORTGAGE_MONTH";
     public static final String REFINANCED_MORTGAGE_YEAR = "REFINANCED_MORTGAGE_YEAR";
+    public static final String REFINANCED_EARLIEST_DATE = "REFINANCED_EARLIEST_DATE";
+    public static final String REFINANCED_LATEST_LATEST_DATE = "REFINANCED_LATEST_LATEST_DATE";
 
     /**
      * Constants for saving/restoring app state
@@ -81,6 +85,7 @@ public class RefiCalcActivity extends FragmentActivity implements
     /**
      * Fragments
      */
+    private MortgageFragment mMortgageFragment;
     private RefinanceFragment mRefinanceFragment;
     private ComparisonFragment mComparisonFragment;
 
@@ -290,8 +295,8 @@ public class RefiCalcActivity extends FragmentActivity implements
         public Fragment getItem(int itemIndex) {
             Fragment fragment;
             if (itemIndex == 0) {
-                MortgageFragment mortgageFragment = new MortgageFragment();
-                fragment = mortgageFragment;
+                refiCalcActivity.mMortgageFragment = new MortgageFragment();
+                fragment = refiCalcActivity.mMortgageFragment;
             } else if (itemIndex == 1) {
                 refiCalcActivity.mRefinanceFragment = new RefinanceFragment();
                 fragment = refiCalcActivity.mRefinanceFragment;
@@ -334,6 +339,18 @@ public class RefiCalcActivity extends FragmentActivity implements
         bundle.putInt(REFINANCED_MORTGAGE_YEAR, mRefinanceState.getYear());
         bundle.putInt(REFINANCED_MORTGAGE_MONTH, mRefinanceState.getMonth());
 
+        Calendar earliestDate = Calendar.getInstance();
+        earliestDate.set(mMortgageState.getYear(),
+                getNextMonth(mMortgageState), 1);
+        long earliestMillis = earliestDate.getTimeInMillis();
+        bundle.putLong(REFINANCED_EARLIEST_DATE, earliestMillis);
+
+        Calendar latest = Calendar.getInstance();
+        latest.set(mMortgageState.getYear() + mMortgageState.getDuration(),
+                getPreviousMonth(mMortgageState), 1);
+        long latestMillis = latest.getTimeInMillis();
+        bundle.putLong(REFINANCED_LATEST_LATEST_DATE, latestMillis);
+
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.setArguments(bundle);
         datePickerFragment.show(getSupportFragmentManager(), "datePicker");
@@ -351,6 +368,7 @@ public class RefiCalcActivity extends FragmentActivity implements
         String displayMonth = c.getDisplayName(Calendar.MONTH, Calendar.LONG,
                 Locale.US);
         startDateView.setText(displayMonth + " " + year);
+        mMortgageFragment.updateSummary();
     }
 
     @Override
@@ -364,7 +382,7 @@ public class RefiCalcActivity extends FragmentActivity implements
         String displayMonth = c.getDisplayName(Calendar.MONTH, Calendar.LONG,
                 Locale.US);
         startDateView.setText(displayMonth + " " + year);
-
+        mRefinanceFragment.updateState();
     }
 
     public void recalc() {

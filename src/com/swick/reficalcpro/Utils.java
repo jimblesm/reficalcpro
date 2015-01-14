@@ -15,4 +15,14 @@ public class Utils {
     public static BigDecimal divide(BigDecimal dividend, BigDecimal divisor) {
         return dividend.divide(divisor, 4, RoundingMode.CEILING);
     }
+
+    public static int getNextMonth(MortgageState mortgageState) {
+        return mortgageState.getMonth() == 11 ? 0
+                : mortgageState.getMonth() + 1;
+    }
+
+    public static int getPreviousMonth(MortgageState mortgageState) {
+        return mortgageState.getMonth() == 0 ? 11
+                : mortgageState.getMonth() - 1;
+    }
 }
