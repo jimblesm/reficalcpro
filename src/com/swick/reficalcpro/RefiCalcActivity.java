@@ -437,6 +437,10 @@ public class RefiCalcActivity extends FragmentActivity implements
                 divide(state.getInterestRate(), newBigDecimal(100)),
                 newBigDecimal(12));
 
+        if (BigDecimal.ZERO.equals(monthlyInterest)) {
+            monthlyInterest = newBigDecimal("0.01");
+        }
+
         // 1 + i
         BigDecimal monthlyInterestPlusOne = monthlyInterest.add(BigDecimal.ONE);
 
