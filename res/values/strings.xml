@@ -1,13 +1,13 @@
 <resources>
 
-    <string name="app_name">RefiCalc Pro</string>
+    <string name="app_name">MortgageCalc Pro</string>
 	
 	<string-array name="cash_out">
 	    <item>Yes</item>
 	    <item>No</item>
 	</string-array>
 	
-	<string name="tab_mortgage">Current Mortgage</string>
+	<string name="tab_mortgage">Mortgage</string>
 	<string name="tab_refinance">Refinance</string>
 	<string name="tab_comparison">Comparison</string>
 	
