@@ -1,0 +1,43 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="edittext_size">15sp</dimen>
+    <dimen name="btnall_text_size">18sp</dimen>
+    <dimen name="btntabapp_text_size">15sp</dimen>
+    <dimen name="btnmenu_text_size">14sp</dimen>
+    <dimen name="edittext_left_padding">8dp</dimen>
+    <dimen name="edittext_top_padding">14dp</dimen>
+    <dimen name="margin_top_register">10dp</dimen>
+    <dimen name="title_text_size">18sp</dimen>
+    <dimen name="title_headr_size">55dp</dimen>
+     <dimen name="downloadforms_headr_size">17sp</dimen>
+     <dimen name="downloadforms_subtextview_size">12sp</dimen>
+     <dimen name="end_test_text_size">13sp</dimen>
+     <dimen name="margintop_end_test_row">20dp</dimen>
+    <dimen name="accesslevel_width_txt">120dp</dimen>
+    <dimen name="accesslevel_textview_size">14sp</dimen>
+    <dimen name="tbl600_title_headr_size">100dp</dimen>
+    <dimen name="tbl600_title_text_size">38sp</dimen>
+    <dimen name="tbl600_btnall_text_size">33sp</dimen>
+    <dimen name="tbl600_edittext_size">26sp</dimen>
+    <dimen name="tbl600_edittext_left_padding">21dp</dimen>
+    <dimen name="tbl600_margin_top_register">25dp</dimen>
+    <dimen name="tbl600_downloadforms_subtextview_size">20sp</dimen>
+<dimen name="tbl600_downloadforms_headr_size">26sp</dimen>
+<dimen name="tbl600_start_test_text_size">24sp</dimen>
+<dimen name="tbl600_end_test_text_size">23sp</dimen>
+<dimen name="tbl600_accesslevel_width_txt">220dp</dimen>
+<dimen name="tbl600_accesslevel_textview_size">24sp</dimen>
+    <!-- <dimen name="tbl800_title_text_size">45sp</dimen> -->
+    <!-- <dimen name="tbl800_btnall_text_size">33sp</dimen> -->
+    <!-- <dimen name="tbl800_edittext_size">26sp</dimen> -->
+    <!-- <dimen name="tbl800_edittext_left_padding">21dp</dimen> -->
+    <!-- <dimen name="tbl800_margin_top_register">25dp</dimen> -->
+
+    <dimen name="tbl800_title_text_size">50sp</dimen>
+    <dimen name="tbl800_btnall_text_size">39sp</dimen>
+    <dimen name="tbl800_edittext_size">32sp</dimen>
+    <dimen name="tbl800_edittext_left_padding">25dp</dimen>
+    <dimen name="tbl800_margin_top_register">31dp</dimen>
+
+</resources>

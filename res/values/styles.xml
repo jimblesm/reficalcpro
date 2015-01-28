@@ -20,7 +20,7 @@
     <style name="RCPLabelDefault">
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -30,11 +30,11 @@
     </style>
 
     <style name="RCPEditableDefault">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="RCPUneditableDefault">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:paddingLeft">20dp</item>
     </style>
     

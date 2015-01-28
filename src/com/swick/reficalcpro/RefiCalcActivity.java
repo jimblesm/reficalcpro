@@ -35,6 +35,11 @@ import com.swick.reficalcpro.DatePickerFragment.MortgageDateChangeListener;
 public class RefiCalcActivity extends FragmentActivity implements
         MortgageDateChangeListener {
 
+    private static final BigDecimal DEFAULT_REFI_COSTS = newBigDecimal(6000);
+    private static final BigDecimal DEFAULT_CASH_OUT = newBigDecimal(10000);
+    private static final BigDecimal DEFAULT_INTEREST_RATE = newBigDecimal(5);
+    private static final int DEFAULT_DURATION = 30;
+    private static final BigDecimal DEFAULT_PRINCIPAL = newBigDecimal(200000);
     /**
      * Mortgage/Refinance fields
      */
@@ -127,50 +132,50 @@ public class RefiCalcActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            mMortgageState.setDuration(30);
-            mMortgageState.setInterestRate(newBigDecimal(5));
+            mMortgageState.setDuration(DEFAULT_DURATION);
+            mMortgageState.setInterestRate(DEFAULT_INTEREST_RATE);
             mMortgageState.setMonth(Calendar.JANUARY);
             mMortgageState.setYear(2015);
-            mMortgageState.setPrincipal(newBigDecimal(200000));
+            mMortgageState.setPrincipal(DEFAULT_PRINCIPAL);
             mMortgageState.setTaxes(BigDecimal.ZERO);
             mMortgageState.setInsurance(BigDecimal.ZERO);
 
-            mRefinanceState.setDuration(30);
-            mRefinanceState.setInterestRate(newBigDecimal(5));
+            mRefinanceState.setDuration(DEFAULT_DURATION);
+            mRefinanceState.setInterestRate(DEFAULT_INTEREST_RATE);
             mRefinanceState.setMonth(Calendar.FEBRUARY);
             mRefinanceState.setYear(2015);
-            mRefinanceState.setCashOut(newBigDecimal(10000));
-            mRefinanceState.setCost(newBigDecimal(6000));
+            mRefinanceState.setCashOut(DEFAULT_CASH_OUT);
+            mRefinanceState.setCost(DEFAULT_REFI_COSTS);
         } else {
             mMortgageState.setPrincipal(newBigDecimal(savedInstanceState
-                    .getString(mortgagePrefix + principleSuffix)));
+                    .getString(mortgagePrefix + principleSuffix, "200000")));
             mMortgageState.setInterestRate(newBigDecimal(savedInstanceState
-                    .getString(mortgagePrefix + interestSuffix)));
+                    .getString(mortgagePrefix + interestSuffix, "5.0")));
             mMortgageState.setDuration(savedInstanceState.getInt(mortgagePrefix
-                    + durationSuffix));
+                    + durationSuffix, 30));
             mMortgageState.setMonth(savedInstanceState.getInt(mortgagePrefix
-                    + monthSuffix));
+                    + monthSuffix, Calendar.JANUARY));
             mMortgageState.setYear(savedInstanceState.getInt(mortgagePrefix
-                    + yearSuffix));
-            mMortgageState.setTaxes(newBigDecimal(savedInstanceState
-                    .getString(mortgagePrefix + taxesSuffix)));
+                    + yearSuffix, 2015));
+            mMortgageState.setTaxes(newBigDecimal(savedInstanceState.getString(
+                    mortgagePrefix + taxesSuffix, "0")));
             mMortgageState.setInsurance(newBigDecimal(savedInstanceState
-                    .getString(mortgagePrefix + insuranceSuffix)));
+                    .getString(mortgagePrefix + insuranceSuffix, "0")));
 
             mRefinanceState.setPrincipal(newBigDecimal(savedInstanceState
-                    .getString(refinancePrefix + principleSuffix)));
+                    .getString(refinancePrefix + principleSuffix, "200000")));
             mRefinanceState.setInterestRate(newBigDecimal(savedInstanceState
-                    .getString(refinancePrefix + interestSuffix)));
-            mRefinanceState.setDuration(savedInstanceState
-                    .getInt(refinancePrefix + durationSuffix));
+                    .getString(refinancePrefix + interestSuffix, "5.0")));
+            mRefinanceState.setDuration(savedInstanceState.getInt(
+                    refinancePrefix + durationSuffix, 30));
             mRefinanceState.setMonth(savedInstanceState.getInt(refinancePrefix
-                    + monthSuffix));
+                    + monthSuffix, Calendar.FEBRUARY));
             mRefinanceState.setYear(savedInstanceState.getInt(refinancePrefix
-                    + yearSuffix));
-            mRefinanceState.setCost(newBigDecimal(savedInstanceState
-                    .getString(refinancePrefix + costSuffix)));
+                    + yearSuffix, 2015));
+            mRefinanceState.setCost(newBigDecimal(savedInstanceState.getString(
+                    refinancePrefix + costSuffix, "6000")));
             mRefinanceState.setCashOut(newBigDecimal(savedInstanceState
-                    .getString(refinancePrefix + cashOutSuffix)));
+                    .getString(refinancePrefix + cashOutSuffix, "10000")));
         }
 
         calculateMortgage();

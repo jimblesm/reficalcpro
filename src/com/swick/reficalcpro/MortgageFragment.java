@@ -178,7 +178,7 @@ public class MortgageFragment extends Fragment {
         // Create an ArrayAdapter using the string array and a default
         // spinner layout
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
-                mActivity, android.R.layout.simple_spinner_item, mActivity
+                mActivity, R.layout.spinner_list, mActivity
                         .getLoanDurationLabels().keySet()
                         .toArray(new String[0]));
 

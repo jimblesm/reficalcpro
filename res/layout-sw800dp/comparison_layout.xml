@@ -6,24 +6,27 @@
     android:layout_gravity="center_vertical" >
 
     <LinearLayout 
-		android:layout_width="match_parent"
+    	android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
        	android:layout_marginTop="0dp"
         android:gravity="center_vertical|center_horizontal"
         android:orientation="vertical"
-        android:weightSum="2">
+        android:weightSum="2" >
     
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
         style="@style/RCPComparisonLabel"
+        android:textSize="45sp"
         android:text="You pay"/>
     
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/RCPComparisonUneditable"
+        android:textSize="45sp"
         android:id="@+id/comparison_monthly_payment" />
     
     <TextView 
@@ -31,24 +34,28 @@
         android:layout_height="wrap_content"
         style="@style/RCPComparisonLabel"
         android:paddingBottom="20dp"
+        android:textSize="45sp"
         android:id="@+id/comparison_monthly_payment_less_more"/>
     
 	<TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/RCPComparisonLabel"
+        android:textSize="45sp"
         android:text="Your loan lasts"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/RCPComparisonUneditable"
+        android:textSize="45sp"
         android:id="@+id/comparison_duration" />
     
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/RCPComparisonLabel"
+        android:textSize="45sp"
         android:id="@+id/comparison_longer_shorter"/>
     
     <TextView 
@@ -56,19 +63,21 @@
         android:layout_height="wrap_content"
         style="@style/RCPComparisonLabel"
         android:paddingTop="20dp"
-        
+        android:textSize="45sp"
         android:text="You pay"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/RCPComparisonUneditable"
+        android:textSize="45sp"
         android:id="@+id/comparison_interest" />
     
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/RCPComparisonLabel"
+        android:textSize="45sp"
         android:text="in interest."/>
 	</LinearLayout>
 </RelativeLayout>

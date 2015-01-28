@@ -20,6 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Loan Amount"
+                android:textSize="30sp"
                 style="@style/RCPLabelDefault" />
 
             <EditText
@@ -29,12 +30,14 @@
                 android:id="@+id/mortgage_loan_amount"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:textSize="30sp"
                 style="@style/RCPEditableDefault" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Interest Rate"
+                android:textSize="30sp"
                 style="@style/RCPLabelDefault" />
 
             <EditText
@@ -44,12 +47,14 @@
                 android:id="@+id/mortgage_interest_rate"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:textSize="30sp"
                 style="@style/RCPEditableDefault" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Start Date"
+                android:textSize="30sp"
                 style="@style/RCPLabelDefault" />
 
             <TextView
@@ -64,19 +69,22 @@
                 android:id="@+id/mortgage_start_date"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                style="@style/RCPEditableDefault" />
+                style="@style/RCPEditableDefault"
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Duration"
-                style="@style/RCPLabelDefault" />
+                style="@style/RCPLabelDefault"
+                android:textSize="30sp" />
 
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/mortgage_duration"
                 android:layout_marginLeft="20dp"
+                android:textSize="30sp"
                 android:layout_marginRight="20dp"
                 style="@style/RCPEditableDefault" />
 
@@ -84,6 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Annual Taxes"
+                android:textSize="30sp"
                 style="@style/RCPLabelDefault" />
 
             <EditText
@@ -93,11 +102,13 @@
                 android:id="@+id/mortgage_taxes"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:textSize="30sp"
                 style="@style/RCPEditableDefault" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="30sp"
                 android:text="Monthly Insurance/HOA"
                 style="@style/RCPLabelDefault" />
 
@@ -107,6 +118,7 @@
                 android:inputType="numberDecimal"
                 android:id="@+id/mortgage_insurance"
                 android:layout_marginLeft="20dp"
+                android:textSize="30sp"
                 android:layout_marginRight="20dp"
                 style="@style/RCPEditableDefault" />
         </LinearLayout>
@@ -115,13 +127,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="30"
+        android:layout_weight="35"
         android:layout_gravity="bottom"
+        
         android:orientation="vertical" >
 
 		<TextView
 		    style="@style/RCPHeaderDefault"
 		    android:layout_width="match_parent"
+		    android:textSize="30sp"
 		    android:layout_height="wrap_content"
 		    android:text="Mortgage Summary" />
 
@@ -129,17 +143,20 @@
             style="@style/RCPLabelDefault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="30sp"
             android:text="Monthly Payment" />
 
         <TextView
             android:id="@+id/mortgage_monthly_payment"
             android:layout_width="match_parent"
+            android:textSize="30sp"
             android:layout_height="wrap_content"
             style="@style/RCPUneditableDefault" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="30sp"
             android:text="Payoff Date"
             style="@style/RCPLabelDefault" />
 
@@ -147,18 +164,22 @@
             android:id="@+id/mortgage_payoff_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="30sp"
             style="@style/RCPUneditableDefault" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Total Interest Paid"
+            android:textSize="30sp"
             style="@style/RCPLabelDefault" />
 
         <TextView
             android:id="@+id/mortgage_total_interest_paid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text=""
             style="@style/RCPUneditableDefault" />
     </LinearLayout>
 

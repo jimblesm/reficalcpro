@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="60"
+        android:requiresFadingEdge="vertical"
+        android:paddingBottom="5dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="60"
+            android:orientation="vertical" >
+
+            <TextView
+                style="@style/RCPLabelDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text="Interest Rate" />
+
+            <EditText
+                android:id="@+id/refinance_interest_rate"
+                style="@style/RCPEditableDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textSize="30sp"
+                android:layout_marginRight="20dp"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                style="@style/RCPLabelDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text="Start Date" />
+
+            <TextView
+                android:id="@+id/refinance_start_date"
+                style="@style/RCPEditableDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:textSize="30sp"
+                android:onClick="showRefiDatePickerDialog"
+                android:paddingBottom="20px"
+                android:paddingLeft="20px"
+                android:paddingTop="20px"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="January 2014" />
+
+            <TextView
+                style="@style/RCPLabelDefault"
+                android:layout_width="match_parent"
+                android:textSize="30sp"
+                android:layout_height="wrap_content"
+                android:text="Duration" />
+
+            <Spinner
+                android:id="@+id/refinance_duration"
+                style="@style/RCPEditableDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textSize="30sp"
+                android:layout_marginRight="20dp" />
+
+            <TextView
+                style="@style/RCPLabelDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text="Refinance Costs" />
+
+            <EditText
+                android:id="@+id/refinance_costs"
+                style="@style/RCPEditableDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:layout_marginLeft="20dp"
+                android:textSize="30sp"
+                android:layout_marginRight="20dp" />
+
+            <TextView
+                style="@style/RCPLabelDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text="Cash Out" />
+
+            <EditText
+                android:id="@+id/refinance_cash_out"
+                style="@style/RCPEditableDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:inputType="numberDecimal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="55"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+        
+            <LinearLayout
+        		android:layout_width="0dip"
+        		android:layout_weight="50"
+        		android:layout_height="match_parent"
+        		android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:textSize="30sp"
+            		android:text="Before Refinance"
+                    style="@style/RCPHeaderDefault" />
+                    
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:textSize="30sp"
+            		android:text="Principal"
+                    style="@style/RCPLabelDefault" />
+
+        		<TextView
+            		android:id="@+id/mortgage_original_principal"
+            		android:layout_width="match_parent"
+            		android:textSize="30sp"
+            		android:layout_height="wrap_content"
+                    style="@style/RCPUneditableDefault" />
+        		
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:text="Monthly Payment"
+            		android:textSize="30sp"
+                    style="@style/RCPLabelDefault" />
+
+        		<TextView
+            		android:id="@+id/mortgage_original_monthly_payment"
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:textSize="30sp"
+                    style="@style/RCPUneditableDefault" />
+
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:text="Payoff Date"
+            		android:textSize="30sp"
+                    style="@style/RCPLabelDefault" />
+
+        		<TextView
+            		android:id="@+id/mortgage_original_payoff_date"
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:textSize="30sp"
+                    style="@style/RCPUneditableDefault" />
+
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:text="Total Interest Paid"
+            		android:textSize="30sp"
+                    style="@style/RCPLabelDefault" />
+
+        		<TextView
+            		android:id="@+id/mortgage_interest_paid_without_refinancing"
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:textSize="30sp"
+                    style="@style/RCPUneditableDefault" />
+    		</LinearLayout>
+    
+            
+        	<LinearLayout
+        		android:layout_width="0dip"
+        		android:layout_weight="50"
+        		android:layout_height="match_parent"
+        		android:orientation="vertical" >
+        		
+                <TextView
+                    android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:textSize="30sp"
+            		android:text="After Refinance"
+                    style="@style/RCPHeaderDefault" />
+                
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:textSize="30sp"
+            		android:text="Principal"
+                    style="@style/RCPLabelDefault" />
+        	
+        		<TextView
+            		android:id="@+id/refinance_new_principal"
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:textSize="30sp"
+                    style="@style/RCPUneditableDefault" />
+        	    
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:textSize="30sp"
+            		android:text="Monthly Payment"
+                    style="@style/RCPLabelDefault" />
+        		
+        	
+        		<TextView
+            		android:id="@+id/refinance_new_monthly_payment"
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:textSize="30sp"
+                    style="@style/RCPUneditableDefault" />
+
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:textSize="30sp"
+            		android:text="Payoff Date"
+                    style="@style/RCPLabelDefault" />
+        	
+				<TextView
+            		android:id="@+id/refinance_new_payoff_date"
+            		android:layout_width="match_parent"
+            		android:layout_height="wrap_content"
+            		android:textSize="30sp"
+                    style="@style/RCPUneditableDefault" />
+
+        		<TextView
+            		android:layout_width="match_parent"
+            		android:textSize="30sp"
+            		android:layout_height="wrap_content"
+            		android:text="Total Interest Paid"
+                    style="@style/RCPLabelDefault" />
+        				
+        		<TextView
+            		android:id="@+id/refinance_total_interest_paid"
+            		android:layout_width="match_parent"
+            		android:textSize="30sp"
+            		android:layout_height="wrap_content"
+                    style="@style/RCPUneditableDefault" />
+    		</LinearLayout>
+    </LinearLayout>
+    
+</LinearLayout>
